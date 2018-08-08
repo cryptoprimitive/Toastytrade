@@ -1,9 +1,9 @@
-window.onload = function() {
-  window.app = new Vue({
+window.addEventListener('load', function() {
+  window.registerVueapp = new Vue({
     delimiters: ['${', '}'],
-    el: '#app',
+    el: '#registerVueapp',
     data: {
-      test: "hiii"
+
     }
   });
-}
+});
