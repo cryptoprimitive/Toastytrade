@@ -15,6 +15,14 @@
       <div id="registerVueapp" class="container-fluid site-main">
         {{ template "header" }}
         {{ template "accountInfoPanel" }}
+        <div class="mainBlock">
+          <div class="well well-sm row">
+            <div class="col-sm-12">
+              <div>Email address: <input id="emailInput"></div>
+              <div><button onclick="submitRegister()" class="btn btn-basic">Register</button></div>
+            </div>
+          </div>
+        </div>
       </div>
     </body>
 </html>
