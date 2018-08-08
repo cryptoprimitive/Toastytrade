@@ -45,6 +45,7 @@ func logRequest(f http.Handler) http.Handler {
 func main() {
 	slog.SetDebug()
 	http.HandleFunc("/", index)
+	http.HandleFunc("/register", register)
 	http.Handle("/css/", logRequest(http.StripPrefix("/css" ,http.FileServer(http.Dir("./css")))))
 	http.Handle("/js/", logRequest(http.StripPrefix("/js" ,http.FileServer(http.Dir("./js")))))
 	http.ListenAndServe(":8080", nil)
