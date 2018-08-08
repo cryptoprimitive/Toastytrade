@@ -10,8 +10,8 @@ window.addEventListener('load', function() {
   });
 
   if (web3.eth.accounts.length == 0) {
-    $("#no-eth-address-warning").show();
-    $("#ethereum-address-output").hide();
+    $("#noEthAddressWarning").show();
+    $("#ethereumAddressOutput").hide();
   }
   else {
     accountInfoPanelVueapp.ethereumAddress = web3.eth.accounts[0];
