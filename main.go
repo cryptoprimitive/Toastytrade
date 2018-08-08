@@ -17,7 +17,15 @@ func index(w http.ResponseWriter, r *http.Request) {
 	slog.DebugPrint("Path requested: ", r.URL.String())
 	err := tpl.ExecuteTemplate(w, "index.html", nil)
 	if err != nil {
-		log.Panic("Template Error: ", err)
+		log.Panic("Template error on index: ", err)
+	}
+}
+
+func register(w http.ResponseWriter, r *http.Request) {
+	slog.DebugPrint("Path requested: ", r.URL.String())
+	err := tpl.ExecuteTemplate(w, "register.html", nil)
+	if err != nil {
+		log.Panic("Template error on register: ", err)
 	}
 }
 
