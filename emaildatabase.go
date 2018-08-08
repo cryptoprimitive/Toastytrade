@@ -29,12 +29,12 @@ type emailDBEntry struct {
 func GetEmail(addr common.Address) (email string, err error) {
 	v, err := db.Get(addr.Bytes(), nil)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	var e emailDBEntry
 	err = json.Unmarshal(v, e)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	return e.Email, nil
 }
