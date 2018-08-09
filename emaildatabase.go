@@ -6,6 +6,7 @@ import (
 	"log"
 	"github.com/ethereum/go-ethereum/common"
 	"encoding/json"
+//	"github.com/SomniaStellarum/StellarUtilities/slog"
 )
 
 var db *leveldb.DB
@@ -32,7 +33,7 @@ func GetEmail(addr common.Address) (email string, err error) {
 		return "", err
 	}
 	var e emailDBEntry
-	err = json.Unmarshal(v, e)
+	err = json.Unmarshal(v, &e)
 	if err != nil {
 		return "", err
 	}
