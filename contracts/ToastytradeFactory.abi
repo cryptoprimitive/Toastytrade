@@ -1,0 +1,93 @@
+[
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "notifyServiceProvider",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "toastytrades",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "notifyServiceFee",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "seller",
+				"type": "address"
+			},
+			{
+				"name": "autoreleaseInterval",
+				"type": "uint256"
+			},
+			{
+				"name": "_details",
+				"type": "string"
+			}
+		],
+		"name": "newToastytrade",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "toastytradeAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "BurnablePaymentAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "offerDetails",
+				"type": "string"
+			}
+		],
+		"name": "ToastytradeCreated",
+		"type": "event"
+	}
+]

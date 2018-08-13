@@ -40,8 +40,28 @@ func doRegister(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Panic("Error calling PutEmail: ", err)
 	}
+}
 
-	slog.DebugPrint("I guess it's in the DB!")
+func registerTrade(w http.ResponseWriter, r *http.Request) {
+	slog.DebugPrint("registerTrade called")
+
+	err := tpl.ExecuteTemplate(w, "registerTrade.html", nil)
+	if err != nil {
+		log.Panic("Template error on registerTrade")
+	}
+}
+
+func doRegisterTrade(w http.ResponseWriter, r *http.Request) {
+	slog.DebugPrint("doRegisterTrade called")
+
+	toastytradeAddress := common.HexToAddress(r.PostFormValue("toastytradeAddress"))
+
+	err := RegisterAndPopulateToastytrade(toastytradeAddress)
+	if err != nil {
+		log.Panic("Error calling RegisterAndPopulateToastytrade", err)
+	}
+
+	slog.DebugPrint("Toastytrade registered")
 }
 
 func getUserEmail(w http.ResponseWriter, r *http.Request) {
@@ -55,6 +75,12 @@ func getUserEmail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write([]byte(email))
+}
+
+func test(w http.ResponseWriter, r *http.Request) {
+	sendTheMail();
+
+	w.Write([]byte("testing!"))
 }
 
 type logRequester struct {
@@ -76,6 +102,9 @@ func main() {
 	http.HandleFunc("/register", register)
 	http.HandleFunc("/doRegister", doRegister)
 	http.HandleFunc("/getUserEmail", getUserEmail)
+	http.HandleFunc("/registerTrade", registerTrade)
+	http.HandleFunc("/doRegisterTrade", doRegisterTrade)
+	http.HandleFunc("/test", test)
 	http.Handle("/css/", logRequest(http.StripPrefix("/css" ,http.FileServer(http.Dir("./css")))))
 	http.Handle("/js/", logRequest(http.StripPrefix("/js" ,http.FileServer(http.Dir("./js")))))
 	http.ListenAndServe(":8080", nil)

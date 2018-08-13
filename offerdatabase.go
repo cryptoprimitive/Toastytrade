@@ -5,6 +5,7 @@ import (
 	"github.com/syndtr/goleveldb/leveldb"
 	"os"
 	"log"
+	"github.com/SomniaStellarum/StellarUtilities/slog"
 )
 
 // to store
@@ -30,4 +31,10 @@ func init() {
 type offerDBEntry struct {
 	Seller common.Address `json:"seller"`
 	Buyer common.Address `json:"buyer"`
+}
+
+func RegisterAndPopulateToastytrade(addr common.Address) (err error) {
+	slog.DebugPrint("Okay, gonna totally register and populate toastytrade for address ", addr.Hex())
+
+	return nil
 }

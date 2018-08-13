@@ -1,0 +1,49 @@
+[
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "details",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "BP",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "seller",
+				"type": "address"
+			},
+			{
+				"name": "autoreleaseInterval",
+				"type": "uint256"
+			},
+			{
+				"name": "_details",
+				"type": "string"
+			}
+		],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "constructor"
+	}
+]
