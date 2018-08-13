@@ -5,7 +5,7 @@ window.addEventListener('load', function() {
     el: '#accountInfoPanelVueapp',
     data: {
       ethereumAddress: "",
-      email: ""
+      email: "loading..."
     }
   });
 
@@ -17,7 +17,7 @@ window.addEventListener('load', function() {
   else {
     accountInfoPanelVueapp.ethereumAddress = web3.eth.accounts[0];
     $.post("/getUserEmail", {ethAddress: web3.eth.accounts[0]}, function(data) {
-      accountInfoPanel.email = data;
+      window.accountInfoPanelVueapp.email = data;
     });
   }
 });

@@ -31,7 +31,7 @@ func register(w http.ResponseWriter, r *http.Request) {
 }
 
 func doRegister(w http.ResponseWriter, r *http.Request) {
-	slog.DebugPrint("Path requested: ", r.URL.String())
+	slog.DebugPrint("doRegister called")
 
 	ethAddress := common.HexToAddress(r.PostFormValue("ethAddress"))
 	email := r.PostFormValue("email")
@@ -45,7 +45,7 @@ func doRegister(w http.ResponseWriter, r *http.Request) {
 }
 
 func getUserEmail(w http.ResponseWriter, r *http.Request) {
-	slog.DebugPrint("Path requested: ", r.URL.String())
+	slog.DebugPrint("getUserEmail called")
 
 	ethAddress := common.HexToAddress(r.PostFormValue("ethAddress"))
 
@@ -54,9 +54,7 @@ func getUserEmail(w http.ResponseWriter, r *http.Request) {
 		log.Panic("Error calling GetEmail: ", err)
 	}
 
-	slog.DebugPrint(email)
-
-	//w.Write([]byte(email))
+	w.Write([]byte(email))
 }
 
 func main() {
