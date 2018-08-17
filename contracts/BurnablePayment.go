@@ -15,107 +15,107 @@ import (
 	"github.com/ethereum/go-ethereum/event"
 )
 
-// MainABI is the input ABI used to generate the binding from.
-const MainABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"payer\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"cancelClaim\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"release\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"commit\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"title\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"worker\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"amountBurned\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"autoreleaseInterval\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"logPayerStatement\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getFullState\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"},{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"string\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"addFunds\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"recoverFunds\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"autoreleaseTime\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"state\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"amountReleased\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"commitThreshold\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"startClaim\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"triggerClaim\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"logWorkerStatement\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"amountDeposited\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"payerIsOpening\",\"type\":\"bool\"},{\"name\":\"creator\",\"type\":\"address\"},{\"name\":\"_commitThreshold\",\"type\":\"uint256\"},{\"name\":\"_autoreleaseInterval\",\"type\":\"uint256\"},{\"name\":\"_title\",\"type\":\"string\"},{\"name\":\"initialStatement\",\"type\":\"string\"}],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"contractAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"payerOpened\",\"type\":\"bool\"},{\"indexed\":false,\"name\":\"creator\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"commitThreshold\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"autoreleaseInterval\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"title\",\"type\":\"string\"}],\"name\":\"Created\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"from\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FundsAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"PayerStatement\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"WorkerStatement\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"FundsRecovered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"committer\",\"type\":\"address\"}],\"name\":\"Committed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FundsBurned\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FundsReleased\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"ClaimStarted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"ClaimCanceled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"ClaimTriggered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"Closed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"Unclosed\",\"type\":\"event\"}]"
+// BurnablePaymentABI is the input ABI used to generate the binding from.
+const BurnablePaymentABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"payer\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"cancelClaim\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"release\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"commit\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"title\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"worker\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"amountBurned\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"autoreleaseInterval\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"logPayerStatement\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getFullState\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"},{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"string\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"addFunds\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"recoverFunds\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"autoreleaseTime\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"state\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"amountReleased\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"commitThreshold\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"startClaim\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"triggerClaim\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"logWorkerStatement\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"amountDeposited\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"payerIsOpening\",\"type\":\"bool\"},{\"name\":\"creator\",\"type\":\"address\"},{\"name\":\"_commitThreshold\",\"type\":\"uint256\"},{\"name\":\"_autoreleaseInterval\",\"type\":\"uint256\"},{\"name\":\"_title\",\"type\":\"string\"},{\"name\":\"initialStatement\",\"type\":\"string\"}],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"contractAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"payerOpened\",\"type\":\"bool\"},{\"indexed\":false,\"name\":\"creator\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"commitThreshold\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"autoreleaseInterval\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"title\",\"type\":\"string\"}],\"name\":\"Created\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"from\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FundsAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"PayerStatement\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"WorkerStatement\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"FundsRecovered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"committer\",\"type\":\"address\"}],\"name\":\"Committed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FundsBurned\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FundsReleased\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"ClaimStarted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"ClaimCanceled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"ClaimTriggered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"Closed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"Unclosed\",\"type\":\"event\"}]"
 
-// Main is an auto generated Go binding around an Ethereum contract.
-type Main struct {
-	MainCaller     // Read-only binding to the contract
-	MainTransactor // Write-only binding to the contract
-	MainFilterer   // Log filterer for contract events
+// BurnablePayment is an auto generated Go binding around an Ethereum contract.
+type BurnablePayment struct {
+	BurnablePaymentCaller     // Read-only binding to the contract
+	BurnablePaymentTransactor // Write-only binding to the contract
+	BurnablePaymentFilterer   // Log filterer for contract events
 }
 
-// MainCaller is an auto generated read-only Go binding around an Ethereum contract.
-type MainCaller struct {
+// BurnablePaymentCaller is an auto generated read-only Go binding around an Ethereum contract.
+type BurnablePaymentCaller struct {
 	contract *bind.BoundContract // Generic contract wrapper for the low level calls
 }
 
-// MainTransactor is an auto generated write-only Go binding around an Ethereum contract.
-type MainTransactor struct {
+// BurnablePaymentTransactor is an auto generated write-only Go binding around an Ethereum contract.
+type BurnablePaymentTransactor struct {
 	contract *bind.BoundContract // Generic contract wrapper for the low level calls
 }
 
-// MainFilterer is an auto generated log filtering Go binding around an Ethereum contract events.
-type MainFilterer struct {
+// BurnablePaymentFilterer is an auto generated log filtering Go binding around an Ethereum contract events.
+type BurnablePaymentFilterer struct {
 	contract *bind.BoundContract // Generic contract wrapper for the low level calls
 }
 
-// MainSession is an auto generated Go binding around an Ethereum contract,
+// BurnablePaymentSession is an auto generated Go binding around an Ethereum contract,
 // with pre-set call and transact options.
-type MainSession struct {
-	Contract     *Main             // Generic contract binding to set the session for
+type BurnablePaymentSession struct {
+	Contract     *BurnablePayment  // Generic contract binding to set the session for
 	CallOpts     bind.CallOpts     // Call options to use throughout this session
 	TransactOpts bind.TransactOpts // Transaction auth options to use throughout this session
 }
 
-// MainCallerSession is an auto generated read-only Go binding around an Ethereum contract,
+// BurnablePaymentCallerSession is an auto generated read-only Go binding around an Ethereum contract,
 // with pre-set call options.
-type MainCallerSession struct {
-	Contract *MainCaller   // Generic contract caller binding to set the session for
-	CallOpts bind.CallOpts // Call options to use throughout this session
+type BurnablePaymentCallerSession struct {
+	Contract *BurnablePaymentCaller // Generic contract caller binding to set the session for
+	CallOpts bind.CallOpts          // Call options to use throughout this session
 }
 
-// MainTransactorSession is an auto generated write-only Go binding around an Ethereum contract,
+// BurnablePaymentTransactorSession is an auto generated write-only Go binding around an Ethereum contract,
 // with pre-set transact options.
-type MainTransactorSession struct {
-	Contract     *MainTransactor   // Generic contract transactor binding to set the session for
-	TransactOpts bind.TransactOpts // Transaction auth options to use throughout this session
+type BurnablePaymentTransactorSession struct {
+	Contract     *BurnablePaymentTransactor // Generic contract transactor binding to set the session for
+	TransactOpts bind.TransactOpts          // Transaction auth options to use throughout this session
 }
 
-// MainRaw is an auto generated low-level Go binding around an Ethereum contract.
-type MainRaw struct {
-	Contract *Main // Generic contract binding to access the raw methods on
+// BurnablePaymentRaw is an auto generated low-level Go binding around an Ethereum contract.
+type BurnablePaymentRaw struct {
+	Contract *BurnablePayment // Generic contract binding to access the raw methods on
 }
 
-// MainCallerRaw is an auto generated low-level read-only Go binding around an Ethereum contract.
-type MainCallerRaw struct {
-	Contract *MainCaller // Generic read-only contract binding to access the raw methods on
+// BurnablePaymentCallerRaw is an auto generated low-level read-only Go binding around an Ethereum contract.
+type BurnablePaymentCallerRaw struct {
+	Contract *BurnablePaymentCaller // Generic read-only contract binding to access the raw methods on
 }
 
-// MainTransactorRaw is an auto generated low-level write-only Go binding around an Ethereum contract.
-type MainTransactorRaw struct {
-	Contract *MainTransactor // Generic write-only contract binding to access the raw methods on
+// BurnablePaymentTransactorRaw is an auto generated low-level write-only Go binding around an Ethereum contract.
+type BurnablePaymentTransactorRaw struct {
+	Contract *BurnablePaymentTransactor // Generic write-only contract binding to access the raw methods on
 }
 
-// NewMain creates a new instance of Main, bound to a specific deployed contract.
-func NewMain(address common.Address, backend bind.ContractBackend) (*Main, error) {
-	contract, err := bindMain(address, backend, backend, backend)
+// NewBurnablePayment creates a new instance of BurnablePayment, bound to a specific deployed contract.
+func NewBurnablePayment(address common.Address, backend bind.ContractBackend) (*BurnablePayment, error) {
+	contract, err := bindBurnablePayment(address, backend, backend, backend)
 	if err != nil {
 		return nil, err
 	}
-	return &Main{MainCaller: MainCaller{contract: contract}, MainTransactor: MainTransactor{contract: contract}, MainFilterer: MainFilterer{contract: contract}}, nil
+	return &BurnablePayment{BurnablePaymentCaller: BurnablePaymentCaller{contract: contract}, BurnablePaymentTransactor: BurnablePaymentTransactor{contract: contract}, BurnablePaymentFilterer: BurnablePaymentFilterer{contract: contract}}, nil
 }
 
-// NewMainCaller creates a new read-only instance of Main, bound to a specific deployed contract.
-func NewMainCaller(address common.Address, caller bind.ContractCaller) (*MainCaller, error) {
-	contract, err := bindMain(address, caller, nil, nil)
+// NewBurnablePaymentCaller creates a new read-only instance of BurnablePayment, bound to a specific deployed contract.
+func NewBurnablePaymentCaller(address common.Address, caller bind.ContractCaller) (*BurnablePaymentCaller, error) {
+	contract, err := bindBurnablePayment(address, caller, nil, nil)
 	if err != nil {
 		return nil, err
 	}
-	return &MainCaller{contract: contract}, nil
+	return &BurnablePaymentCaller{contract: contract}, nil
 }
 
-// NewMainTransactor creates a new write-only instance of Main, bound to a specific deployed contract.
-func NewMainTransactor(address common.Address, transactor bind.ContractTransactor) (*MainTransactor, error) {
-	contract, err := bindMain(address, nil, transactor, nil)
+// NewBurnablePaymentTransactor creates a new write-only instance of BurnablePayment, bound to a specific deployed contract.
+func NewBurnablePaymentTransactor(address common.Address, transactor bind.ContractTransactor) (*BurnablePaymentTransactor, error) {
+	contract, err := bindBurnablePayment(address, nil, transactor, nil)
 	if err != nil {
 		return nil, err
 	}
-	return &MainTransactor{contract: contract}, nil
+	return &BurnablePaymentTransactor{contract: contract}, nil
 }
 
-// NewMainFilterer creates a new log filterer instance of Main, bound to a specific deployed contract.
-func NewMainFilterer(address common.Address, filterer bind.ContractFilterer) (*MainFilterer, error) {
-	contract, err := bindMain(address, nil, nil, filterer)
+// NewBurnablePaymentFilterer creates a new log filterer instance of BurnablePayment, bound to a specific deployed contract.
+func NewBurnablePaymentFilterer(address common.Address, filterer bind.ContractFilterer) (*BurnablePaymentFilterer, error) {
+	contract, err := bindBurnablePayment(address, nil, nil, filterer)
 	if err != nil {
 		return nil, err
 	}
-	return &MainFilterer{contract: contract}, nil
+	return &BurnablePaymentFilterer{contract: contract}, nil
 }
 
-// bindMain binds a generic wrapper to an already deployed contract.
-func bindMain(address common.Address, caller bind.ContractCaller, transactor bind.ContractTransactor, filterer bind.ContractFilterer) (*bind.BoundContract, error) {
-	parsed, err := abi.JSON(strings.NewReader(MainABI))
+// bindBurnablePayment binds a generic wrapper to an already deployed contract.
+func bindBurnablePayment(address common.Address, caller bind.ContractCaller, transactor bind.ContractTransactor, filterer bind.ContractFilterer) (*bind.BoundContract, error) {
+	parsed, err := abi.JSON(strings.NewReader(BurnablePaymentABI))
 	if err != nil {
 		return nil, err
 	}
@@ -126,200 +126,200 @@ func bindMain(address common.Address, caller bind.ContractCaller, transactor bin
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_Main *MainRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
-	return _Main.Contract.MainCaller.contract.Call(opts, result, method, params...)
+func (_BurnablePayment *BurnablePaymentRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
+	return _BurnablePayment.Contract.BurnablePaymentCaller.contract.Call(opts, result, method, params...)
 }
 
 // Transfer initiates a plain transaction to move funds to the contract, calling
 // its default method if one is available.
-func (_Main *MainRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _Main.Contract.MainTransactor.contract.Transfer(opts)
+func (_BurnablePayment *BurnablePaymentRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _BurnablePayment.Contract.BurnablePaymentTransactor.contract.Transfer(opts)
 }
 
 // Transact invokes the (paid) contract method with params as input values.
-func (_Main *MainRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
-	return _Main.Contract.MainTransactor.contract.Transact(opts, method, params...)
+func (_BurnablePayment *BurnablePaymentRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
+	return _BurnablePayment.Contract.BurnablePaymentTransactor.contract.Transact(opts, method, params...)
 }
 
 // Call invokes the (constant) contract method with params as input values and
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_Main *MainCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
-	return _Main.Contract.contract.Call(opts, result, method, params...)
+func (_BurnablePayment *BurnablePaymentCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
+	return _BurnablePayment.Contract.contract.Call(opts, result, method, params...)
 }
 
 // Transfer initiates a plain transaction to move funds to the contract, calling
 // its default method if one is available.
-func (_Main *MainTransactorRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _Main.Contract.contract.Transfer(opts)
+func (_BurnablePayment *BurnablePaymentTransactorRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _BurnablePayment.Contract.contract.Transfer(opts)
 }
 
 // Transact invokes the (paid) contract method with params as input values.
-func (_Main *MainTransactorRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
-	return _Main.Contract.contract.Transact(opts, method, params...)
+func (_BurnablePayment *BurnablePaymentTransactorRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
+	return _BurnablePayment.Contract.contract.Transact(opts, method, params...)
 }
 
 // AmountBurned is a free data retrieval call binding the contract method 0x5290d773.
 //
 // Solidity: function amountBurned() constant returns(uint256)
-func (_Main *MainCaller) AmountBurned(opts *bind.CallOpts) (*big.Int, error) {
+func (_BurnablePayment *BurnablePaymentCaller) AmountBurned(opts *bind.CallOpts) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Main.contract.Call(opts, out, "amountBurned")
+	err := _BurnablePayment.contract.Call(opts, out, "amountBurned")
 	return *ret0, err
 }
 
 // AmountBurned is a free data retrieval call binding the contract method 0x5290d773.
 //
 // Solidity: function amountBurned() constant returns(uint256)
-func (_Main *MainSession) AmountBurned() (*big.Int, error) {
-	return _Main.Contract.AmountBurned(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentSession) AmountBurned() (*big.Int, error) {
+	return _BurnablePayment.Contract.AmountBurned(&_BurnablePayment.CallOpts)
 }
 
 // AmountBurned is a free data retrieval call binding the contract method 0x5290d773.
 //
 // Solidity: function amountBurned() constant returns(uint256)
-func (_Main *MainCallerSession) AmountBurned() (*big.Int, error) {
-	return _Main.Contract.AmountBurned(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentCallerSession) AmountBurned() (*big.Int, error) {
+	return _BurnablePayment.Contract.AmountBurned(&_BurnablePayment.CallOpts)
 }
 
 // AmountDeposited is a free data retrieval call binding the contract method 0xf86ccd41.
 //
 // Solidity: function amountDeposited() constant returns(uint256)
-func (_Main *MainCaller) AmountDeposited(opts *bind.CallOpts) (*big.Int, error) {
+func (_BurnablePayment *BurnablePaymentCaller) AmountDeposited(opts *bind.CallOpts) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Main.contract.Call(opts, out, "amountDeposited")
+	err := _BurnablePayment.contract.Call(opts, out, "amountDeposited")
 	return *ret0, err
 }
 
 // AmountDeposited is a free data retrieval call binding the contract method 0xf86ccd41.
 //
 // Solidity: function amountDeposited() constant returns(uint256)
-func (_Main *MainSession) AmountDeposited() (*big.Int, error) {
-	return _Main.Contract.AmountDeposited(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentSession) AmountDeposited() (*big.Int, error) {
+	return _BurnablePayment.Contract.AmountDeposited(&_BurnablePayment.CallOpts)
 }
 
 // AmountDeposited is a free data retrieval call binding the contract method 0xf86ccd41.
 //
 // Solidity: function amountDeposited() constant returns(uint256)
-func (_Main *MainCallerSession) AmountDeposited() (*big.Int, error) {
-	return _Main.Contract.AmountDeposited(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentCallerSession) AmountDeposited() (*big.Int, error) {
+	return _BurnablePayment.Contract.AmountDeposited(&_BurnablePayment.CallOpts)
 }
 
 // AmountReleased is a free data retrieval call binding the contract method 0xdc7454dd.
 //
 // Solidity: function amountReleased() constant returns(uint256)
-func (_Main *MainCaller) AmountReleased(opts *bind.CallOpts) (*big.Int, error) {
+func (_BurnablePayment *BurnablePaymentCaller) AmountReleased(opts *bind.CallOpts) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Main.contract.Call(opts, out, "amountReleased")
+	err := _BurnablePayment.contract.Call(opts, out, "amountReleased")
 	return *ret0, err
 }
 
 // AmountReleased is a free data retrieval call binding the contract method 0xdc7454dd.
 //
 // Solidity: function amountReleased() constant returns(uint256)
-func (_Main *MainSession) AmountReleased() (*big.Int, error) {
-	return _Main.Contract.AmountReleased(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentSession) AmountReleased() (*big.Int, error) {
+	return _BurnablePayment.Contract.AmountReleased(&_BurnablePayment.CallOpts)
 }
 
 // AmountReleased is a free data retrieval call binding the contract method 0xdc7454dd.
 //
 // Solidity: function amountReleased() constant returns(uint256)
-func (_Main *MainCallerSession) AmountReleased() (*big.Int, error) {
-	return _Main.Contract.AmountReleased(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentCallerSession) AmountReleased() (*big.Int, error) {
+	return _BurnablePayment.Contract.AmountReleased(&_BurnablePayment.CallOpts)
 }
 
 // AutoreleaseInterval is a free data retrieval call binding the contract method 0x67aff919.
 //
 // Solidity: function autoreleaseInterval() constant returns(uint256)
-func (_Main *MainCaller) AutoreleaseInterval(opts *bind.CallOpts) (*big.Int, error) {
+func (_BurnablePayment *BurnablePaymentCaller) AutoreleaseInterval(opts *bind.CallOpts) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Main.contract.Call(opts, out, "autoreleaseInterval")
+	err := _BurnablePayment.contract.Call(opts, out, "autoreleaseInterval")
 	return *ret0, err
 }
 
 // AutoreleaseInterval is a free data retrieval call binding the contract method 0x67aff919.
 //
 // Solidity: function autoreleaseInterval() constant returns(uint256)
-func (_Main *MainSession) AutoreleaseInterval() (*big.Int, error) {
-	return _Main.Contract.AutoreleaseInterval(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentSession) AutoreleaseInterval() (*big.Int, error) {
+	return _BurnablePayment.Contract.AutoreleaseInterval(&_BurnablePayment.CallOpts)
 }
 
 // AutoreleaseInterval is a free data retrieval call binding the contract method 0x67aff919.
 //
 // Solidity: function autoreleaseInterval() constant returns(uint256)
-func (_Main *MainCallerSession) AutoreleaseInterval() (*big.Int, error) {
-	return _Main.Contract.AutoreleaseInterval(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentCallerSession) AutoreleaseInterval() (*big.Int, error) {
+	return _BurnablePayment.Contract.AutoreleaseInterval(&_BurnablePayment.CallOpts)
 }
 
 // AutoreleaseTime is a free data retrieval call binding the contract method 0xbc308233.
 //
 // Solidity: function autoreleaseTime() constant returns(uint256)
-func (_Main *MainCaller) AutoreleaseTime(opts *bind.CallOpts) (*big.Int, error) {
+func (_BurnablePayment *BurnablePaymentCaller) AutoreleaseTime(opts *bind.CallOpts) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Main.contract.Call(opts, out, "autoreleaseTime")
+	err := _BurnablePayment.contract.Call(opts, out, "autoreleaseTime")
 	return *ret0, err
 }
 
 // AutoreleaseTime is a free data retrieval call binding the contract method 0xbc308233.
 //
 // Solidity: function autoreleaseTime() constant returns(uint256)
-func (_Main *MainSession) AutoreleaseTime() (*big.Int, error) {
-	return _Main.Contract.AutoreleaseTime(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentSession) AutoreleaseTime() (*big.Int, error) {
+	return _BurnablePayment.Contract.AutoreleaseTime(&_BurnablePayment.CallOpts)
 }
 
 // AutoreleaseTime is a free data retrieval call binding the contract method 0xbc308233.
 //
 // Solidity: function autoreleaseTime() constant returns(uint256)
-func (_Main *MainCallerSession) AutoreleaseTime() (*big.Int, error) {
-	return _Main.Contract.AutoreleaseTime(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentCallerSession) AutoreleaseTime() (*big.Int, error) {
+	return _BurnablePayment.Contract.AutoreleaseTime(&_BurnablePayment.CallOpts)
 }
 
 // CommitThreshold is a free data retrieval call binding the contract method 0xec1e74a7.
 //
 // Solidity: function commitThreshold() constant returns(uint256)
-func (_Main *MainCaller) CommitThreshold(opts *bind.CallOpts) (*big.Int, error) {
+func (_BurnablePayment *BurnablePaymentCaller) CommitThreshold(opts *bind.CallOpts) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _Main.contract.Call(opts, out, "commitThreshold")
+	err := _BurnablePayment.contract.Call(opts, out, "commitThreshold")
 	return *ret0, err
 }
 
 // CommitThreshold is a free data retrieval call binding the contract method 0xec1e74a7.
 //
 // Solidity: function commitThreshold() constant returns(uint256)
-func (_Main *MainSession) CommitThreshold() (*big.Int, error) {
-	return _Main.Contract.CommitThreshold(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentSession) CommitThreshold() (*big.Int, error) {
+	return _BurnablePayment.Contract.CommitThreshold(&_BurnablePayment.CallOpts)
 }
 
 // CommitThreshold is a free data retrieval call binding the contract method 0xec1e74a7.
 //
 // Solidity: function commitThreshold() constant returns(uint256)
-func (_Main *MainCallerSession) CommitThreshold() (*big.Int, error) {
-	return _Main.Contract.CommitThreshold(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentCallerSession) CommitThreshold() (*big.Int, error) {
+	return _BurnablePayment.Contract.CommitThreshold(&_BurnablePayment.CallOpts)
 }
 
 // GetFullState is a free data retrieval call binding the contract method 0x972161f7.
 //
 // Solidity: function getFullState() constant returns(uint8, address, address, string, uint256, uint256, uint256, uint256, uint256, uint256, uint256)
-func (_Main *MainCaller) GetFullState(opts *bind.CallOpts) (uint8, common.Address, common.Address, string, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, error) {
+func (_BurnablePayment *BurnablePaymentCaller) GetFullState(opts *bind.CallOpts) (uint8, common.Address, common.Address, string, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, error) {
 	var (
 		ret0  = new(uint8)
 		ret1  = new(common.Address)
@@ -346,341 +346,341 @@ func (_Main *MainCaller) GetFullState(opts *bind.CallOpts) (uint8, common.Addres
 		ret9,
 		ret10,
 	}
-	err := _Main.contract.Call(opts, out, "getFullState")
+	err := _BurnablePayment.contract.Call(opts, out, "getFullState")
 	return *ret0, *ret1, *ret2, *ret3, *ret4, *ret5, *ret6, *ret7, *ret8, *ret9, *ret10, err
 }
 
 // GetFullState is a free data retrieval call binding the contract method 0x972161f7.
 //
 // Solidity: function getFullState() constant returns(uint8, address, address, string, uint256, uint256, uint256, uint256, uint256, uint256, uint256)
-func (_Main *MainSession) GetFullState() (uint8, common.Address, common.Address, string, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, error) {
-	return _Main.Contract.GetFullState(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentSession) GetFullState() (uint8, common.Address, common.Address, string, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, error) {
+	return _BurnablePayment.Contract.GetFullState(&_BurnablePayment.CallOpts)
 }
 
 // GetFullState is a free data retrieval call binding the contract method 0x972161f7.
 //
 // Solidity: function getFullState() constant returns(uint8, address, address, string, uint256, uint256, uint256, uint256, uint256, uint256, uint256)
-func (_Main *MainCallerSession) GetFullState() (uint8, common.Address, common.Address, string, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, error) {
-	return _Main.Contract.GetFullState(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentCallerSession) GetFullState() (uint8, common.Address, common.Address, string, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int, error) {
+	return _BurnablePayment.Contract.GetFullState(&_BurnablePayment.CallOpts)
 }
 
 // Payer is a free data retrieval call binding the contract method 0x123119cd.
 //
 // Solidity: function payer() constant returns(address)
-func (_Main *MainCaller) Payer(opts *bind.CallOpts) (common.Address, error) {
+func (_BurnablePayment *BurnablePaymentCaller) Payer(opts *bind.CallOpts) (common.Address, error) {
 	var (
 		ret0 = new(common.Address)
 	)
 	out := ret0
-	err := _Main.contract.Call(opts, out, "payer")
+	err := _BurnablePayment.contract.Call(opts, out, "payer")
 	return *ret0, err
 }
 
 // Payer is a free data retrieval call binding the contract method 0x123119cd.
 //
 // Solidity: function payer() constant returns(address)
-func (_Main *MainSession) Payer() (common.Address, error) {
-	return _Main.Contract.Payer(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentSession) Payer() (common.Address, error) {
+	return _BurnablePayment.Contract.Payer(&_BurnablePayment.CallOpts)
 }
 
 // Payer is a free data retrieval call binding the contract method 0x123119cd.
 //
 // Solidity: function payer() constant returns(address)
-func (_Main *MainCallerSession) Payer() (common.Address, error) {
-	return _Main.Contract.Payer(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentCallerSession) Payer() (common.Address, error) {
+	return _BurnablePayment.Contract.Payer(&_BurnablePayment.CallOpts)
 }
 
 // State is a free data retrieval call binding the contract method 0xc19d93fb.
 //
 // Solidity: function state() constant returns(uint8)
-func (_Main *MainCaller) State(opts *bind.CallOpts) (uint8, error) {
+func (_BurnablePayment *BurnablePaymentCaller) State(opts *bind.CallOpts) (uint8, error) {
 	var (
 		ret0 = new(uint8)
 	)
 	out := ret0
-	err := _Main.contract.Call(opts, out, "state")
+	err := _BurnablePayment.contract.Call(opts, out, "state")
 	return *ret0, err
 }
 
 // State is a free data retrieval call binding the contract method 0xc19d93fb.
 //
 // Solidity: function state() constant returns(uint8)
-func (_Main *MainSession) State() (uint8, error) {
-	return _Main.Contract.State(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentSession) State() (uint8, error) {
+	return _BurnablePayment.Contract.State(&_BurnablePayment.CallOpts)
 }
 
 // State is a free data retrieval call binding the contract method 0xc19d93fb.
 //
 // Solidity: function state() constant returns(uint8)
-func (_Main *MainCallerSession) State() (uint8, error) {
-	return _Main.Contract.State(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentCallerSession) State() (uint8, error) {
+	return _BurnablePayment.Contract.State(&_BurnablePayment.CallOpts)
 }
 
 // Title is a free data retrieval call binding the contract method 0x4a79d50c.
 //
 // Solidity: function title() constant returns(string)
-func (_Main *MainCaller) Title(opts *bind.CallOpts) (string, error) {
+func (_BurnablePayment *BurnablePaymentCaller) Title(opts *bind.CallOpts) (string, error) {
 	var (
 		ret0 = new(string)
 	)
 	out := ret0
-	err := _Main.contract.Call(opts, out, "title")
+	err := _BurnablePayment.contract.Call(opts, out, "title")
 	return *ret0, err
 }
 
 // Title is a free data retrieval call binding the contract method 0x4a79d50c.
 //
 // Solidity: function title() constant returns(string)
-func (_Main *MainSession) Title() (string, error) {
-	return _Main.Contract.Title(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentSession) Title() (string, error) {
+	return _BurnablePayment.Contract.Title(&_BurnablePayment.CallOpts)
 }
 
 // Title is a free data retrieval call binding the contract method 0x4a79d50c.
 //
 // Solidity: function title() constant returns(string)
-func (_Main *MainCallerSession) Title() (string, error) {
-	return _Main.Contract.Title(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentCallerSession) Title() (string, error) {
+	return _BurnablePayment.Contract.Title(&_BurnablePayment.CallOpts)
 }
 
 // Worker is a free data retrieval call binding the contract method 0x4d547ada.
 //
 // Solidity: function worker() constant returns(address)
-func (_Main *MainCaller) Worker(opts *bind.CallOpts) (common.Address, error) {
+func (_BurnablePayment *BurnablePaymentCaller) Worker(opts *bind.CallOpts) (common.Address, error) {
 	var (
 		ret0 = new(common.Address)
 	)
 	out := ret0
-	err := _Main.contract.Call(opts, out, "worker")
+	err := _BurnablePayment.contract.Call(opts, out, "worker")
 	return *ret0, err
 }
 
 // Worker is a free data retrieval call binding the contract method 0x4d547ada.
 //
 // Solidity: function worker() constant returns(address)
-func (_Main *MainSession) Worker() (common.Address, error) {
-	return _Main.Contract.Worker(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentSession) Worker() (common.Address, error) {
+	return _BurnablePayment.Contract.Worker(&_BurnablePayment.CallOpts)
 }
 
 // Worker is a free data retrieval call binding the contract method 0x4d547ada.
 //
 // Solidity: function worker() constant returns(address)
-func (_Main *MainCallerSession) Worker() (common.Address, error) {
-	return _Main.Contract.Worker(&_Main.CallOpts)
+func (_BurnablePayment *BurnablePaymentCallerSession) Worker() (common.Address, error) {
+	return _BurnablePayment.Contract.Worker(&_BurnablePayment.CallOpts)
 }
 
 // AddFunds is a paid mutator transaction binding the contract method 0xa26759cb.
 //
 // Solidity: function addFunds() returns()
-func (_Main *MainTransactor) AddFunds(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _Main.contract.Transact(opts, "addFunds")
+func (_BurnablePayment *BurnablePaymentTransactor) AddFunds(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _BurnablePayment.contract.Transact(opts, "addFunds")
 }
 
 // AddFunds is a paid mutator transaction binding the contract method 0xa26759cb.
 //
 // Solidity: function addFunds() returns()
-func (_Main *MainSession) AddFunds() (*types.Transaction, error) {
-	return _Main.Contract.AddFunds(&_Main.TransactOpts)
+func (_BurnablePayment *BurnablePaymentSession) AddFunds() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.AddFunds(&_BurnablePayment.TransactOpts)
 }
 
 // AddFunds is a paid mutator transaction binding the contract method 0xa26759cb.
 //
 // Solidity: function addFunds() returns()
-func (_Main *MainTransactorSession) AddFunds() (*types.Transaction, error) {
-	return _Main.Contract.AddFunds(&_Main.TransactOpts)
+func (_BurnablePayment *BurnablePaymentTransactorSession) AddFunds() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.AddFunds(&_BurnablePayment.TransactOpts)
 }
 
 // Burn is a paid mutator transaction binding the contract method 0x42966c68.
 //
 // Solidity: function burn(amount uint256) returns()
-func (_Main *MainTransactor) Burn(opts *bind.TransactOpts, amount *big.Int) (*types.Transaction, error) {
-	return _Main.contract.Transact(opts, "burn", amount)
+func (_BurnablePayment *BurnablePaymentTransactor) Burn(opts *bind.TransactOpts, amount *big.Int) (*types.Transaction, error) {
+	return _BurnablePayment.contract.Transact(opts, "burn", amount)
 }
 
 // Burn is a paid mutator transaction binding the contract method 0x42966c68.
 //
 // Solidity: function burn(amount uint256) returns()
-func (_Main *MainSession) Burn(amount *big.Int) (*types.Transaction, error) {
-	return _Main.Contract.Burn(&_Main.TransactOpts, amount)
+func (_BurnablePayment *BurnablePaymentSession) Burn(amount *big.Int) (*types.Transaction, error) {
+	return _BurnablePayment.Contract.Burn(&_BurnablePayment.TransactOpts, amount)
 }
 
 // Burn is a paid mutator transaction binding the contract method 0x42966c68.
 //
 // Solidity: function burn(amount uint256) returns()
-func (_Main *MainTransactorSession) Burn(amount *big.Int) (*types.Transaction, error) {
-	return _Main.Contract.Burn(&_Main.TransactOpts, amount)
+func (_BurnablePayment *BurnablePaymentTransactorSession) Burn(amount *big.Int) (*types.Transaction, error) {
+	return _BurnablePayment.Contract.Burn(&_BurnablePayment.TransactOpts, amount)
 }
 
 // CancelClaim is a paid mutator transaction binding the contract method 0x2bd7cc0f.
 //
 // Solidity: function cancelClaim() returns()
-func (_Main *MainTransactor) CancelClaim(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _Main.contract.Transact(opts, "cancelClaim")
+func (_BurnablePayment *BurnablePaymentTransactor) CancelClaim(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _BurnablePayment.contract.Transact(opts, "cancelClaim")
 }
 
 // CancelClaim is a paid mutator transaction binding the contract method 0x2bd7cc0f.
 //
 // Solidity: function cancelClaim() returns()
-func (_Main *MainSession) CancelClaim() (*types.Transaction, error) {
-	return _Main.Contract.CancelClaim(&_Main.TransactOpts)
+func (_BurnablePayment *BurnablePaymentSession) CancelClaim() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.CancelClaim(&_BurnablePayment.TransactOpts)
 }
 
 // CancelClaim is a paid mutator transaction binding the contract method 0x2bd7cc0f.
 //
 // Solidity: function cancelClaim() returns()
-func (_Main *MainTransactorSession) CancelClaim() (*types.Transaction, error) {
-	return _Main.Contract.CancelClaim(&_Main.TransactOpts)
+func (_BurnablePayment *BurnablePaymentTransactorSession) CancelClaim() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.CancelClaim(&_BurnablePayment.TransactOpts)
 }
 
 // Commit is a paid mutator transaction binding the contract method 0x3c7a3aff.
 //
 // Solidity: function commit() returns()
-func (_Main *MainTransactor) Commit(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _Main.contract.Transact(opts, "commit")
+func (_BurnablePayment *BurnablePaymentTransactor) Commit(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _BurnablePayment.contract.Transact(opts, "commit")
 }
 
 // Commit is a paid mutator transaction binding the contract method 0x3c7a3aff.
 //
 // Solidity: function commit() returns()
-func (_Main *MainSession) Commit() (*types.Transaction, error) {
-	return _Main.Contract.Commit(&_Main.TransactOpts)
+func (_BurnablePayment *BurnablePaymentSession) Commit() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.Commit(&_BurnablePayment.TransactOpts)
 }
 
 // Commit is a paid mutator transaction binding the contract method 0x3c7a3aff.
 //
 // Solidity: function commit() returns()
-func (_Main *MainTransactorSession) Commit() (*types.Transaction, error) {
-	return _Main.Contract.Commit(&_Main.TransactOpts)
+func (_BurnablePayment *BurnablePaymentTransactorSession) Commit() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.Commit(&_BurnablePayment.TransactOpts)
 }
 
 // LogPayerStatement is a paid mutator transaction binding the contract method 0x7345da39.
 //
 // Solidity: function logPayerStatement(statement string) returns()
-func (_Main *MainTransactor) LogPayerStatement(opts *bind.TransactOpts, statement string) (*types.Transaction, error) {
-	return _Main.contract.Transact(opts, "logPayerStatement", statement)
+func (_BurnablePayment *BurnablePaymentTransactor) LogPayerStatement(opts *bind.TransactOpts, statement string) (*types.Transaction, error) {
+	return _BurnablePayment.contract.Transact(opts, "logPayerStatement", statement)
 }
 
 // LogPayerStatement is a paid mutator transaction binding the contract method 0x7345da39.
 //
 // Solidity: function logPayerStatement(statement string) returns()
-func (_Main *MainSession) LogPayerStatement(statement string) (*types.Transaction, error) {
-	return _Main.Contract.LogPayerStatement(&_Main.TransactOpts, statement)
+func (_BurnablePayment *BurnablePaymentSession) LogPayerStatement(statement string) (*types.Transaction, error) {
+	return _BurnablePayment.Contract.LogPayerStatement(&_BurnablePayment.TransactOpts, statement)
 }
 
 // LogPayerStatement is a paid mutator transaction binding the contract method 0x7345da39.
 //
 // Solidity: function logPayerStatement(statement string) returns()
-func (_Main *MainTransactorSession) LogPayerStatement(statement string) (*types.Transaction, error) {
-	return _Main.Contract.LogPayerStatement(&_Main.TransactOpts, statement)
+func (_BurnablePayment *BurnablePaymentTransactorSession) LogPayerStatement(statement string) (*types.Transaction, error) {
+	return _BurnablePayment.Contract.LogPayerStatement(&_BurnablePayment.TransactOpts, statement)
 }
 
 // LogWorkerStatement is a paid mutator transaction binding the contract method 0xf3c74496.
 //
 // Solidity: function logWorkerStatement(statement string) returns()
-func (_Main *MainTransactor) LogWorkerStatement(opts *bind.TransactOpts, statement string) (*types.Transaction, error) {
-	return _Main.contract.Transact(opts, "logWorkerStatement", statement)
+func (_BurnablePayment *BurnablePaymentTransactor) LogWorkerStatement(opts *bind.TransactOpts, statement string) (*types.Transaction, error) {
+	return _BurnablePayment.contract.Transact(opts, "logWorkerStatement", statement)
 }
 
 // LogWorkerStatement is a paid mutator transaction binding the contract method 0xf3c74496.
 //
 // Solidity: function logWorkerStatement(statement string) returns()
-func (_Main *MainSession) LogWorkerStatement(statement string) (*types.Transaction, error) {
-	return _Main.Contract.LogWorkerStatement(&_Main.TransactOpts, statement)
+func (_BurnablePayment *BurnablePaymentSession) LogWorkerStatement(statement string) (*types.Transaction, error) {
+	return _BurnablePayment.Contract.LogWorkerStatement(&_BurnablePayment.TransactOpts, statement)
 }
 
 // LogWorkerStatement is a paid mutator transaction binding the contract method 0xf3c74496.
 //
 // Solidity: function logWorkerStatement(statement string) returns()
-func (_Main *MainTransactorSession) LogWorkerStatement(statement string) (*types.Transaction, error) {
-	return _Main.Contract.LogWorkerStatement(&_Main.TransactOpts, statement)
+func (_BurnablePayment *BurnablePaymentTransactorSession) LogWorkerStatement(statement string) (*types.Transaction, error) {
+	return _BurnablePayment.Contract.LogWorkerStatement(&_BurnablePayment.TransactOpts, statement)
 }
 
 // RecoverFunds is a paid mutator transaction binding the contract method 0xb79550be.
 //
 // Solidity: function recoverFunds() returns()
-func (_Main *MainTransactor) RecoverFunds(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _Main.contract.Transact(opts, "recoverFunds")
+func (_BurnablePayment *BurnablePaymentTransactor) RecoverFunds(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _BurnablePayment.contract.Transact(opts, "recoverFunds")
 }
 
 // RecoverFunds is a paid mutator transaction binding the contract method 0xb79550be.
 //
 // Solidity: function recoverFunds() returns()
-func (_Main *MainSession) RecoverFunds() (*types.Transaction, error) {
-	return _Main.Contract.RecoverFunds(&_Main.TransactOpts)
+func (_BurnablePayment *BurnablePaymentSession) RecoverFunds() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.RecoverFunds(&_BurnablePayment.TransactOpts)
 }
 
 // RecoverFunds is a paid mutator transaction binding the contract method 0xb79550be.
 //
 // Solidity: function recoverFunds() returns()
-func (_Main *MainTransactorSession) RecoverFunds() (*types.Transaction, error) {
-	return _Main.Contract.RecoverFunds(&_Main.TransactOpts)
+func (_BurnablePayment *BurnablePaymentTransactorSession) RecoverFunds() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.RecoverFunds(&_BurnablePayment.TransactOpts)
 }
 
 // Release is a paid mutator transaction binding the contract method 0x37bdc99b.
 //
 // Solidity: function release(amount uint256) returns()
-func (_Main *MainTransactor) Release(opts *bind.TransactOpts, amount *big.Int) (*types.Transaction, error) {
-	return _Main.contract.Transact(opts, "release", amount)
+func (_BurnablePayment *BurnablePaymentTransactor) Release(opts *bind.TransactOpts, amount *big.Int) (*types.Transaction, error) {
+	return _BurnablePayment.contract.Transact(opts, "release", amount)
 }
 
 // Release is a paid mutator transaction binding the contract method 0x37bdc99b.
 //
 // Solidity: function release(amount uint256) returns()
-func (_Main *MainSession) Release(amount *big.Int) (*types.Transaction, error) {
-	return _Main.Contract.Release(&_Main.TransactOpts, amount)
+func (_BurnablePayment *BurnablePaymentSession) Release(amount *big.Int) (*types.Transaction, error) {
+	return _BurnablePayment.Contract.Release(&_BurnablePayment.TransactOpts, amount)
 }
 
 // Release is a paid mutator transaction binding the contract method 0x37bdc99b.
 //
 // Solidity: function release(amount uint256) returns()
-func (_Main *MainTransactorSession) Release(amount *big.Int) (*types.Transaction, error) {
-	return _Main.Contract.Release(&_Main.TransactOpts, amount)
+func (_BurnablePayment *BurnablePaymentTransactorSession) Release(amount *big.Int) (*types.Transaction, error) {
+	return _BurnablePayment.Contract.Release(&_BurnablePayment.TransactOpts, amount)
 }
 
 // StartClaim is a paid mutator transaction binding the contract method 0xecbfc077.
 //
 // Solidity: function startClaim() returns()
-func (_Main *MainTransactor) StartClaim(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _Main.contract.Transact(opts, "startClaim")
+func (_BurnablePayment *BurnablePaymentTransactor) StartClaim(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _BurnablePayment.contract.Transact(opts, "startClaim")
 }
 
 // StartClaim is a paid mutator transaction binding the contract method 0xecbfc077.
 //
 // Solidity: function startClaim() returns()
-func (_Main *MainSession) StartClaim() (*types.Transaction, error) {
-	return _Main.Contract.StartClaim(&_Main.TransactOpts)
+func (_BurnablePayment *BurnablePaymentSession) StartClaim() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.StartClaim(&_BurnablePayment.TransactOpts)
 }
 
 // StartClaim is a paid mutator transaction binding the contract method 0xecbfc077.
 //
 // Solidity: function startClaim() returns()
-func (_Main *MainTransactorSession) StartClaim() (*types.Transaction, error) {
-	return _Main.Contract.StartClaim(&_Main.TransactOpts)
+func (_BurnablePayment *BurnablePaymentTransactorSession) StartClaim() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.StartClaim(&_BurnablePayment.TransactOpts)
 }
 
 // TriggerClaim is a paid mutator transaction binding the contract method 0xef21fe5a.
 //
 // Solidity: function triggerClaim() returns()
-func (_Main *MainTransactor) TriggerClaim(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _Main.contract.Transact(opts, "triggerClaim")
+func (_BurnablePayment *BurnablePaymentTransactor) TriggerClaim(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _BurnablePayment.contract.Transact(opts, "triggerClaim")
 }
 
 // TriggerClaim is a paid mutator transaction binding the contract method 0xef21fe5a.
 //
 // Solidity: function triggerClaim() returns()
-func (_Main *MainSession) TriggerClaim() (*types.Transaction, error) {
-	return _Main.Contract.TriggerClaim(&_Main.TransactOpts)
+func (_BurnablePayment *BurnablePaymentSession) TriggerClaim() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.TriggerClaim(&_BurnablePayment.TransactOpts)
 }
 
 // TriggerClaim is a paid mutator transaction binding the contract method 0xef21fe5a.
 //
 // Solidity: function triggerClaim() returns()
-func (_Main *MainTransactorSession) TriggerClaim() (*types.Transaction, error) {
-	return _Main.Contract.TriggerClaim(&_Main.TransactOpts)
+func (_BurnablePayment *BurnablePaymentTransactorSession) TriggerClaim() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.TriggerClaim(&_BurnablePayment.TransactOpts)
 }
 
-// MainClaimCanceledIterator is returned from FilterClaimCanceled and is used to iterate over the raw logs and unpacked data for ClaimCanceled events raised by the Main contract.
-type MainClaimCanceledIterator struct {
-	Event *MainClaimCanceled // Event containing the contract specifics and raw log
+// BurnablePaymentClaimCanceledIterator is returned from FilterClaimCanceled and is used to iterate over the raw logs and unpacked data for ClaimCanceled events raised by the BurnablePayment contract.
+type BurnablePaymentClaimCanceledIterator struct {
+	Event *BurnablePaymentClaimCanceled // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -694,7 +694,7 @@ type MainClaimCanceledIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *MainClaimCanceledIterator) Next() bool {
+func (it *BurnablePaymentClaimCanceledIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -703,7 +703,7 @@ func (it *MainClaimCanceledIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(MainClaimCanceled)
+			it.Event = new(BurnablePaymentClaimCanceled)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -718,7 +718,7 @@ func (it *MainClaimCanceledIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(MainClaimCanceled)
+		it.Event = new(BurnablePaymentClaimCanceled)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -734,40 +734,40 @@ func (it *MainClaimCanceledIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *MainClaimCanceledIterator) Error() error {
+func (it *BurnablePaymentClaimCanceledIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *MainClaimCanceledIterator) Close() error {
+func (it *BurnablePaymentClaimCanceledIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// MainClaimCanceled represents a ClaimCanceled event raised by the Main contract.
-type MainClaimCanceled struct {
+// BurnablePaymentClaimCanceled represents a ClaimCanceled event raised by the BurnablePayment contract.
+type BurnablePaymentClaimCanceled struct {
 	Raw types.Log // Blockchain specific contextual infos
 }
 
 // FilterClaimCanceled is a free log retrieval operation binding the contract event 0x599fe6791b76067426490176d39fb8ef37ca6315dc7228225bfc1c589df0555b.
 //
 // Solidity: e ClaimCanceled()
-func (_Main *MainFilterer) FilterClaimCanceled(opts *bind.FilterOpts) (*MainClaimCanceledIterator, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) FilterClaimCanceled(opts *bind.FilterOpts) (*BurnablePaymentClaimCanceledIterator, error) {
 
-	logs, sub, err := _Main.contract.FilterLogs(opts, "ClaimCanceled")
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "ClaimCanceled")
 	if err != nil {
 		return nil, err
 	}
-	return &MainClaimCanceledIterator{contract: _Main.contract, event: "ClaimCanceled", logs: logs, sub: sub}, nil
+	return &BurnablePaymentClaimCanceledIterator{contract: _BurnablePayment.contract, event: "ClaimCanceled", logs: logs, sub: sub}, nil
 }
 
 // WatchClaimCanceled is a free log subscription operation binding the contract event 0x599fe6791b76067426490176d39fb8ef37ca6315dc7228225bfc1c589df0555b.
 //
 // Solidity: e ClaimCanceled()
-func (_Main *MainFilterer) WatchClaimCanceled(opts *bind.WatchOpts, sink chan<- *MainClaimCanceled) (event.Subscription, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) WatchClaimCanceled(opts *bind.WatchOpts, sink chan<- *BurnablePaymentClaimCanceled) (event.Subscription, error) {
 
-	logs, sub, err := _Main.contract.WatchLogs(opts, "ClaimCanceled")
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "ClaimCanceled")
 	if err != nil {
 		return nil, err
 	}
@@ -777,8 +777,8 @@ func (_Main *MainFilterer) WatchClaimCanceled(opts *bind.WatchOpts, sink chan<- 
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(MainClaimCanceled)
-				if err := _Main.contract.UnpackLog(event, "ClaimCanceled", log); err != nil {
+				event := new(BurnablePaymentClaimCanceled)
+				if err := _BurnablePayment.contract.UnpackLog(event, "ClaimCanceled", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -799,9 +799,9 @@ func (_Main *MainFilterer) WatchClaimCanceled(opts *bind.WatchOpts, sink chan<- 
 	}), nil
 }
 
-// MainClaimStartedIterator is returned from FilterClaimStarted and is used to iterate over the raw logs and unpacked data for ClaimStarted events raised by the Main contract.
-type MainClaimStartedIterator struct {
-	Event *MainClaimStarted // Event containing the contract specifics and raw log
+// BurnablePaymentClaimStartedIterator is returned from FilterClaimStarted and is used to iterate over the raw logs and unpacked data for ClaimStarted events raised by the BurnablePayment contract.
+type BurnablePaymentClaimStartedIterator struct {
+	Event *BurnablePaymentClaimStarted // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -815,7 +815,7 @@ type MainClaimStartedIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *MainClaimStartedIterator) Next() bool {
+func (it *BurnablePaymentClaimStartedIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -824,7 +824,7 @@ func (it *MainClaimStartedIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(MainClaimStarted)
+			it.Event = new(BurnablePaymentClaimStarted)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -839,7 +839,7 @@ func (it *MainClaimStartedIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(MainClaimStarted)
+		it.Event = new(BurnablePaymentClaimStarted)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -855,40 +855,40 @@ func (it *MainClaimStartedIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *MainClaimStartedIterator) Error() error {
+func (it *BurnablePaymentClaimStartedIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *MainClaimStartedIterator) Close() error {
+func (it *BurnablePaymentClaimStartedIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// MainClaimStarted represents a ClaimStarted event raised by the Main contract.
-type MainClaimStarted struct {
+// BurnablePaymentClaimStarted represents a ClaimStarted event raised by the BurnablePayment contract.
+type BurnablePaymentClaimStarted struct {
 	Raw types.Log // Blockchain specific contextual infos
 }
 
 // FilterClaimStarted is a free log retrieval operation binding the contract event 0xc2e00d7be4f68ed88532b9273d506a7aae151286bb6babdb81735dfb224b21a6.
 //
 // Solidity: e ClaimStarted()
-func (_Main *MainFilterer) FilterClaimStarted(opts *bind.FilterOpts) (*MainClaimStartedIterator, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) FilterClaimStarted(opts *bind.FilterOpts) (*BurnablePaymentClaimStartedIterator, error) {
 
-	logs, sub, err := _Main.contract.FilterLogs(opts, "ClaimStarted")
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "ClaimStarted")
 	if err != nil {
 		return nil, err
 	}
-	return &MainClaimStartedIterator{contract: _Main.contract, event: "ClaimStarted", logs: logs, sub: sub}, nil
+	return &BurnablePaymentClaimStartedIterator{contract: _BurnablePayment.contract, event: "ClaimStarted", logs: logs, sub: sub}, nil
 }
 
 // WatchClaimStarted is a free log subscription operation binding the contract event 0xc2e00d7be4f68ed88532b9273d506a7aae151286bb6babdb81735dfb224b21a6.
 //
 // Solidity: e ClaimStarted()
-func (_Main *MainFilterer) WatchClaimStarted(opts *bind.WatchOpts, sink chan<- *MainClaimStarted) (event.Subscription, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) WatchClaimStarted(opts *bind.WatchOpts, sink chan<- *BurnablePaymentClaimStarted) (event.Subscription, error) {
 
-	logs, sub, err := _Main.contract.WatchLogs(opts, "ClaimStarted")
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "ClaimStarted")
 	if err != nil {
 		return nil, err
 	}
@@ -898,8 +898,8 @@ func (_Main *MainFilterer) WatchClaimStarted(opts *bind.WatchOpts, sink chan<- *
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(MainClaimStarted)
-				if err := _Main.contract.UnpackLog(event, "ClaimStarted", log); err != nil {
+				event := new(BurnablePaymentClaimStarted)
+				if err := _BurnablePayment.contract.UnpackLog(event, "ClaimStarted", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -920,9 +920,9 @@ func (_Main *MainFilterer) WatchClaimStarted(opts *bind.WatchOpts, sink chan<- *
 	}), nil
 }
 
-// MainClaimTriggeredIterator is returned from FilterClaimTriggered and is used to iterate over the raw logs and unpacked data for ClaimTriggered events raised by the Main contract.
-type MainClaimTriggeredIterator struct {
-	Event *MainClaimTriggered // Event containing the contract specifics and raw log
+// BurnablePaymentClaimTriggeredIterator is returned from FilterClaimTriggered and is used to iterate over the raw logs and unpacked data for ClaimTriggered events raised by the BurnablePayment contract.
+type BurnablePaymentClaimTriggeredIterator struct {
+	Event *BurnablePaymentClaimTriggered // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -936,7 +936,7 @@ type MainClaimTriggeredIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *MainClaimTriggeredIterator) Next() bool {
+func (it *BurnablePaymentClaimTriggeredIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -945,7 +945,7 @@ func (it *MainClaimTriggeredIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(MainClaimTriggered)
+			it.Event = new(BurnablePaymentClaimTriggered)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -960,7 +960,7 @@ func (it *MainClaimTriggeredIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(MainClaimTriggered)
+		it.Event = new(BurnablePaymentClaimTriggered)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -976,40 +976,40 @@ func (it *MainClaimTriggeredIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *MainClaimTriggeredIterator) Error() error {
+func (it *BurnablePaymentClaimTriggeredIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *MainClaimTriggeredIterator) Close() error {
+func (it *BurnablePaymentClaimTriggeredIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// MainClaimTriggered represents a ClaimTriggered event raised by the Main contract.
-type MainClaimTriggered struct {
+// BurnablePaymentClaimTriggered represents a ClaimTriggered event raised by the BurnablePayment contract.
+type BurnablePaymentClaimTriggered struct {
 	Raw types.Log // Blockchain specific contextual infos
 }
 
 // FilterClaimTriggered is a free log retrieval operation binding the contract event 0x0d41024acbae97d7b0daeab1487048fcaedc58b0d754949c140f70f880c628e9.
 //
 // Solidity: e ClaimTriggered()
-func (_Main *MainFilterer) FilterClaimTriggered(opts *bind.FilterOpts) (*MainClaimTriggeredIterator, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) FilterClaimTriggered(opts *bind.FilterOpts) (*BurnablePaymentClaimTriggeredIterator, error) {
 
-	logs, sub, err := _Main.contract.FilterLogs(opts, "ClaimTriggered")
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "ClaimTriggered")
 	if err != nil {
 		return nil, err
 	}
-	return &MainClaimTriggeredIterator{contract: _Main.contract, event: "ClaimTriggered", logs: logs, sub: sub}, nil
+	return &BurnablePaymentClaimTriggeredIterator{contract: _BurnablePayment.contract, event: "ClaimTriggered", logs: logs, sub: sub}, nil
 }
 
 // WatchClaimTriggered is a free log subscription operation binding the contract event 0x0d41024acbae97d7b0daeab1487048fcaedc58b0d754949c140f70f880c628e9.
 //
 // Solidity: e ClaimTriggered()
-func (_Main *MainFilterer) WatchClaimTriggered(opts *bind.WatchOpts, sink chan<- *MainClaimTriggered) (event.Subscription, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) WatchClaimTriggered(opts *bind.WatchOpts, sink chan<- *BurnablePaymentClaimTriggered) (event.Subscription, error) {
 
-	logs, sub, err := _Main.contract.WatchLogs(opts, "ClaimTriggered")
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "ClaimTriggered")
 	if err != nil {
 		return nil, err
 	}
@@ -1019,8 +1019,8 @@ func (_Main *MainFilterer) WatchClaimTriggered(opts *bind.WatchOpts, sink chan<-
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(MainClaimTriggered)
-				if err := _Main.contract.UnpackLog(event, "ClaimTriggered", log); err != nil {
+				event := new(BurnablePaymentClaimTriggered)
+				if err := _BurnablePayment.contract.UnpackLog(event, "ClaimTriggered", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -1041,9 +1041,9 @@ func (_Main *MainFilterer) WatchClaimTriggered(opts *bind.WatchOpts, sink chan<-
 	}), nil
 }
 
-// MainClosedIterator is returned from FilterClosed and is used to iterate over the raw logs and unpacked data for Closed events raised by the Main contract.
-type MainClosedIterator struct {
-	Event *MainClosed // Event containing the contract specifics and raw log
+// BurnablePaymentClosedIterator is returned from FilterClosed and is used to iterate over the raw logs and unpacked data for Closed events raised by the BurnablePayment contract.
+type BurnablePaymentClosedIterator struct {
+	Event *BurnablePaymentClosed // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -1057,7 +1057,7 @@ type MainClosedIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *MainClosedIterator) Next() bool {
+func (it *BurnablePaymentClosedIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -1066,7 +1066,7 @@ func (it *MainClosedIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(MainClosed)
+			it.Event = new(BurnablePaymentClosed)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -1081,7 +1081,7 @@ func (it *MainClosedIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(MainClosed)
+		it.Event = new(BurnablePaymentClosed)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -1097,40 +1097,40 @@ func (it *MainClosedIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *MainClosedIterator) Error() error {
+func (it *BurnablePaymentClosedIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *MainClosedIterator) Close() error {
+func (it *BurnablePaymentClosedIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// MainClosed represents a Closed event raised by the Main contract.
-type MainClosed struct {
+// BurnablePaymentClosed represents a Closed event raised by the BurnablePayment contract.
+type BurnablePaymentClosed struct {
 	Raw types.Log // Blockchain specific contextual infos
 }
 
 // FilterClosed is a free log retrieval operation binding the contract event 0x1cdde67b72a90f19919ac732a437ac2f7a10fc128d28c2a6e525d89ce5cd9d3a.
 //
 // Solidity: e Closed()
-func (_Main *MainFilterer) FilterClosed(opts *bind.FilterOpts) (*MainClosedIterator, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) FilterClosed(opts *bind.FilterOpts) (*BurnablePaymentClosedIterator, error) {
 
-	logs, sub, err := _Main.contract.FilterLogs(opts, "Closed")
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "Closed")
 	if err != nil {
 		return nil, err
 	}
-	return &MainClosedIterator{contract: _Main.contract, event: "Closed", logs: logs, sub: sub}, nil
+	return &BurnablePaymentClosedIterator{contract: _BurnablePayment.contract, event: "Closed", logs: logs, sub: sub}, nil
 }
 
 // WatchClosed is a free log subscription operation binding the contract event 0x1cdde67b72a90f19919ac732a437ac2f7a10fc128d28c2a6e525d89ce5cd9d3a.
 //
 // Solidity: e Closed()
-func (_Main *MainFilterer) WatchClosed(opts *bind.WatchOpts, sink chan<- *MainClosed) (event.Subscription, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) WatchClosed(opts *bind.WatchOpts, sink chan<- *BurnablePaymentClosed) (event.Subscription, error) {
 
-	logs, sub, err := _Main.contract.WatchLogs(opts, "Closed")
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "Closed")
 	if err != nil {
 		return nil, err
 	}
@@ -1140,8 +1140,8 @@ func (_Main *MainFilterer) WatchClosed(opts *bind.WatchOpts, sink chan<- *MainCl
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(MainClosed)
-				if err := _Main.contract.UnpackLog(event, "Closed", log); err != nil {
+				event := new(BurnablePaymentClosed)
+				if err := _BurnablePayment.contract.UnpackLog(event, "Closed", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -1162,9 +1162,9 @@ func (_Main *MainFilterer) WatchClosed(opts *bind.WatchOpts, sink chan<- *MainCl
 	}), nil
 }
 
-// MainCommittedIterator is returned from FilterCommitted and is used to iterate over the raw logs and unpacked data for Committed events raised by the Main contract.
-type MainCommittedIterator struct {
-	Event *MainCommitted // Event containing the contract specifics and raw log
+// BurnablePaymentCommittedIterator is returned from FilterCommitted and is used to iterate over the raw logs and unpacked data for Committed events raised by the BurnablePayment contract.
+type BurnablePaymentCommittedIterator struct {
+	Event *BurnablePaymentCommitted // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -1178,7 +1178,7 @@ type MainCommittedIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *MainCommittedIterator) Next() bool {
+func (it *BurnablePaymentCommittedIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -1187,7 +1187,7 @@ func (it *MainCommittedIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(MainCommitted)
+			it.Event = new(BurnablePaymentCommitted)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -1202,7 +1202,7 @@ func (it *MainCommittedIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(MainCommitted)
+		it.Event = new(BurnablePaymentCommitted)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -1218,19 +1218,19 @@ func (it *MainCommittedIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *MainCommittedIterator) Error() error {
+func (it *BurnablePaymentCommittedIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *MainCommittedIterator) Close() error {
+func (it *BurnablePaymentCommittedIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// MainCommitted represents a Committed event raised by the Main contract.
-type MainCommitted struct {
+// BurnablePaymentCommitted represents a Committed event raised by the BurnablePayment contract.
+type BurnablePaymentCommitted struct {
 	Committer common.Address
 	Raw       types.Log // Blockchain specific contextual infos
 }
@@ -1238,21 +1238,21 @@ type MainCommitted struct {
 // FilterCommitted is a free log retrieval operation binding the contract event 0x385d85909904c479680cfb49104dd25dd686a79a13b842e5ab5f1fab8fa0fb2a.
 //
 // Solidity: e Committed(committer address)
-func (_Main *MainFilterer) FilterCommitted(opts *bind.FilterOpts) (*MainCommittedIterator, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) FilterCommitted(opts *bind.FilterOpts) (*BurnablePaymentCommittedIterator, error) {
 
-	logs, sub, err := _Main.contract.FilterLogs(opts, "Committed")
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "Committed")
 	if err != nil {
 		return nil, err
 	}
-	return &MainCommittedIterator{contract: _Main.contract, event: "Committed", logs: logs, sub: sub}, nil
+	return &BurnablePaymentCommittedIterator{contract: _BurnablePayment.contract, event: "Committed", logs: logs, sub: sub}, nil
 }
 
 // WatchCommitted is a free log subscription operation binding the contract event 0x385d85909904c479680cfb49104dd25dd686a79a13b842e5ab5f1fab8fa0fb2a.
 //
 // Solidity: e Committed(committer address)
-func (_Main *MainFilterer) WatchCommitted(opts *bind.WatchOpts, sink chan<- *MainCommitted) (event.Subscription, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) WatchCommitted(opts *bind.WatchOpts, sink chan<- *BurnablePaymentCommitted) (event.Subscription, error) {
 
-	logs, sub, err := _Main.contract.WatchLogs(opts, "Committed")
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "Committed")
 	if err != nil {
 		return nil, err
 	}
@@ -1262,8 +1262,8 @@ func (_Main *MainFilterer) WatchCommitted(opts *bind.WatchOpts, sink chan<- *Mai
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(MainCommitted)
-				if err := _Main.contract.UnpackLog(event, "Committed", log); err != nil {
+				event := new(BurnablePaymentCommitted)
+				if err := _BurnablePayment.contract.UnpackLog(event, "Committed", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -1284,9 +1284,9 @@ func (_Main *MainFilterer) WatchCommitted(opts *bind.WatchOpts, sink chan<- *Mai
 	}), nil
 }
 
-// MainCreatedIterator is returned from FilterCreated and is used to iterate over the raw logs and unpacked data for Created events raised by the Main contract.
-type MainCreatedIterator struct {
-	Event *MainCreated // Event containing the contract specifics and raw log
+// BurnablePaymentCreatedIterator is returned from FilterCreated and is used to iterate over the raw logs and unpacked data for Created events raised by the BurnablePayment contract.
+type BurnablePaymentCreatedIterator struct {
+	Event *BurnablePaymentCreated // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -1300,7 +1300,7 @@ type MainCreatedIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *MainCreatedIterator) Next() bool {
+func (it *BurnablePaymentCreatedIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -1309,7 +1309,7 @@ func (it *MainCreatedIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(MainCreated)
+			it.Event = new(BurnablePaymentCreated)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -1324,7 +1324,7 @@ func (it *MainCreatedIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(MainCreated)
+		it.Event = new(BurnablePaymentCreated)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -1340,19 +1340,19 @@ func (it *MainCreatedIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *MainCreatedIterator) Error() error {
+func (it *BurnablePaymentCreatedIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *MainCreatedIterator) Close() error {
+func (it *BurnablePaymentCreatedIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// MainCreated represents a Created event raised by the Main contract.
-type MainCreated struct {
+// BurnablePaymentCreated represents a Created event raised by the BurnablePayment contract.
+type BurnablePaymentCreated struct {
 	ContractAddress     common.Address
 	PayerOpened         bool
 	Creator             common.Address
@@ -1365,31 +1365,31 @@ type MainCreated struct {
 // FilterCreated is a free log retrieval operation binding the contract event 0x7948a17e5fb02dd2f672a909a6ae3292d179707215209444a747ffe9fc50d418.
 //
 // Solidity: e Created(contractAddress indexed address, payerOpened bool, creator address, commitThreshold uint256, autoreleaseInterval uint256, title string)
-func (_Main *MainFilterer) FilterCreated(opts *bind.FilterOpts, contractAddress []common.Address) (*MainCreatedIterator, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) FilterCreated(opts *bind.FilterOpts, contractAddress []common.Address) (*BurnablePaymentCreatedIterator, error) {
 
 	var contractAddressRule []interface{}
 	for _, contractAddressItem := range contractAddress {
 		contractAddressRule = append(contractAddressRule, contractAddressItem)
 	}
 
-	logs, sub, err := _Main.contract.FilterLogs(opts, "Created", contractAddressRule)
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "Created", contractAddressRule)
 	if err != nil {
 		return nil, err
 	}
-	return &MainCreatedIterator{contract: _Main.contract, event: "Created", logs: logs, sub: sub}, nil
+	return &BurnablePaymentCreatedIterator{contract: _BurnablePayment.contract, event: "Created", logs: logs, sub: sub}, nil
 }
 
 // WatchCreated is a free log subscription operation binding the contract event 0x7948a17e5fb02dd2f672a909a6ae3292d179707215209444a747ffe9fc50d418.
 //
 // Solidity: e Created(contractAddress indexed address, payerOpened bool, creator address, commitThreshold uint256, autoreleaseInterval uint256, title string)
-func (_Main *MainFilterer) WatchCreated(opts *bind.WatchOpts, sink chan<- *MainCreated, contractAddress []common.Address) (event.Subscription, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) WatchCreated(opts *bind.WatchOpts, sink chan<- *BurnablePaymentCreated, contractAddress []common.Address) (event.Subscription, error) {
 
 	var contractAddressRule []interface{}
 	for _, contractAddressItem := range contractAddress {
 		contractAddressRule = append(contractAddressRule, contractAddressItem)
 	}
 
-	logs, sub, err := _Main.contract.WatchLogs(opts, "Created", contractAddressRule)
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "Created", contractAddressRule)
 	if err != nil {
 		return nil, err
 	}
@@ -1399,8 +1399,8 @@ func (_Main *MainFilterer) WatchCreated(opts *bind.WatchOpts, sink chan<- *MainC
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(MainCreated)
-				if err := _Main.contract.UnpackLog(event, "Created", log); err != nil {
+				event := new(BurnablePaymentCreated)
+				if err := _BurnablePayment.contract.UnpackLog(event, "Created", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -1421,9 +1421,9 @@ func (_Main *MainFilterer) WatchCreated(opts *bind.WatchOpts, sink chan<- *MainC
 	}), nil
 }
 
-// MainFundsAddedIterator is returned from FilterFundsAdded and is used to iterate over the raw logs and unpacked data for FundsAdded events raised by the Main contract.
-type MainFundsAddedIterator struct {
-	Event *MainFundsAdded // Event containing the contract specifics and raw log
+// BurnablePaymentFundsAddedIterator is returned from FilterFundsAdded and is used to iterate over the raw logs and unpacked data for FundsAdded events raised by the BurnablePayment contract.
+type BurnablePaymentFundsAddedIterator struct {
+	Event *BurnablePaymentFundsAdded // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -1437,7 +1437,7 @@ type MainFundsAddedIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *MainFundsAddedIterator) Next() bool {
+func (it *BurnablePaymentFundsAddedIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -1446,7 +1446,7 @@ func (it *MainFundsAddedIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(MainFundsAdded)
+			it.Event = new(BurnablePaymentFundsAdded)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -1461,7 +1461,7 @@ func (it *MainFundsAddedIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(MainFundsAdded)
+		it.Event = new(BurnablePaymentFundsAdded)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -1477,19 +1477,19 @@ func (it *MainFundsAddedIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *MainFundsAddedIterator) Error() error {
+func (it *BurnablePaymentFundsAddedIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *MainFundsAddedIterator) Close() error {
+func (it *BurnablePaymentFundsAddedIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// MainFundsAdded represents a FundsAdded event raised by the Main contract.
-type MainFundsAdded struct {
+// BurnablePaymentFundsAdded represents a FundsAdded event raised by the BurnablePayment contract.
+type BurnablePaymentFundsAdded struct {
 	From   common.Address
 	Amount *big.Int
 	Raw    types.Log // Blockchain specific contextual infos
@@ -1498,21 +1498,21 @@ type MainFundsAdded struct {
 // FilterFundsAdded is a free log retrieval operation binding the contract event 0x8fe10ae416f22f5e5220b0018a6c1d4ff534d6aa3a471f2a20cb7747fe63e5b9.
 //
 // Solidity: e FundsAdded(from address, amount uint256)
-func (_Main *MainFilterer) FilterFundsAdded(opts *bind.FilterOpts) (*MainFundsAddedIterator, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) FilterFundsAdded(opts *bind.FilterOpts) (*BurnablePaymentFundsAddedIterator, error) {
 
-	logs, sub, err := _Main.contract.FilterLogs(opts, "FundsAdded")
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "FundsAdded")
 	if err != nil {
 		return nil, err
 	}
-	return &MainFundsAddedIterator{contract: _Main.contract, event: "FundsAdded", logs: logs, sub: sub}, nil
+	return &BurnablePaymentFundsAddedIterator{contract: _BurnablePayment.contract, event: "FundsAdded", logs: logs, sub: sub}, nil
 }
 
 // WatchFundsAdded is a free log subscription operation binding the contract event 0x8fe10ae416f22f5e5220b0018a6c1d4ff534d6aa3a471f2a20cb7747fe63e5b9.
 //
 // Solidity: e FundsAdded(from address, amount uint256)
-func (_Main *MainFilterer) WatchFundsAdded(opts *bind.WatchOpts, sink chan<- *MainFundsAdded) (event.Subscription, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) WatchFundsAdded(opts *bind.WatchOpts, sink chan<- *BurnablePaymentFundsAdded) (event.Subscription, error) {
 
-	logs, sub, err := _Main.contract.WatchLogs(opts, "FundsAdded")
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "FundsAdded")
 	if err != nil {
 		return nil, err
 	}
@@ -1522,8 +1522,8 @@ func (_Main *MainFilterer) WatchFundsAdded(opts *bind.WatchOpts, sink chan<- *Ma
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(MainFundsAdded)
-				if err := _Main.contract.UnpackLog(event, "FundsAdded", log); err != nil {
+				event := new(BurnablePaymentFundsAdded)
+				if err := _BurnablePayment.contract.UnpackLog(event, "FundsAdded", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -1544,9 +1544,9 @@ func (_Main *MainFilterer) WatchFundsAdded(opts *bind.WatchOpts, sink chan<- *Ma
 	}), nil
 }
 
-// MainFundsBurnedIterator is returned from FilterFundsBurned and is used to iterate over the raw logs and unpacked data for FundsBurned events raised by the Main contract.
-type MainFundsBurnedIterator struct {
-	Event *MainFundsBurned // Event containing the contract specifics and raw log
+// BurnablePaymentFundsBurnedIterator is returned from FilterFundsBurned and is used to iterate over the raw logs and unpacked data for FundsBurned events raised by the BurnablePayment contract.
+type BurnablePaymentFundsBurnedIterator struct {
+	Event *BurnablePaymentFundsBurned // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -1560,7 +1560,7 @@ type MainFundsBurnedIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *MainFundsBurnedIterator) Next() bool {
+func (it *BurnablePaymentFundsBurnedIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -1569,7 +1569,7 @@ func (it *MainFundsBurnedIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(MainFundsBurned)
+			it.Event = new(BurnablePaymentFundsBurned)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -1584,7 +1584,7 @@ func (it *MainFundsBurnedIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(MainFundsBurned)
+		it.Event = new(BurnablePaymentFundsBurned)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -1600,19 +1600,19 @@ func (it *MainFundsBurnedIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *MainFundsBurnedIterator) Error() error {
+func (it *BurnablePaymentFundsBurnedIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *MainFundsBurnedIterator) Close() error {
+func (it *BurnablePaymentFundsBurnedIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// MainFundsBurned represents a FundsBurned event raised by the Main contract.
-type MainFundsBurned struct {
+// BurnablePaymentFundsBurned represents a FundsBurned event raised by the BurnablePayment contract.
+type BurnablePaymentFundsBurned struct {
 	Amount *big.Int
 	Raw    types.Log // Blockchain specific contextual infos
 }
@@ -1620,21 +1620,21 @@ type MainFundsBurned struct {
 // FilterFundsBurned is a free log retrieval operation binding the contract event 0xe2a0d56d128408deff6c63b30ce69c78024280bc67a251ee2bb096dc08ff1c1e.
 //
 // Solidity: e FundsBurned(amount uint256)
-func (_Main *MainFilterer) FilterFundsBurned(opts *bind.FilterOpts) (*MainFundsBurnedIterator, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) FilterFundsBurned(opts *bind.FilterOpts) (*BurnablePaymentFundsBurnedIterator, error) {
 
-	logs, sub, err := _Main.contract.FilterLogs(opts, "FundsBurned")
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "FundsBurned")
 	if err != nil {
 		return nil, err
 	}
-	return &MainFundsBurnedIterator{contract: _Main.contract, event: "FundsBurned", logs: logs, sub: sub}, nil
+	return &BurnablePaymentFundsBurnedIterator{contract: _BurnablePayment.contract, event: "FundsBurned", logs: logs, sub: sub}, nil
 }
 
 // WatchFundsBurned is a free log subscription operation binding the contract event 0xe2a0d56d128408deff6c63b30ce69c78024280bc67a251ee2bb096dc08ff1c1e.
 //
 // Solidity: e FundsBurned(amount uint256)
-func (_Main *MainFilterer) WatchFundsBurned(opts *bind.WatchOpts, sink chan<- *MainFundsBurned) (event.Subscription, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) WatchFundsBurned(opts *bind.WatchOpts, sink chan<- *BurnablePaymentFundsBurned) (event.Subscription, error) {
 
-	logs, sub, err := _Main.contract.WatchLogs(opts, "FundsBurned")
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "FundsBurned")
 	if err != nil {
 		return nil, err
 	}
@@ -1644,8 +1644,8 @@ func (_Main *MainFilterer) WatchFundsBurned(opts *bind.WatchOpts, sink chan<- *M
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(MainFundsBurned)
-				if err := _Main.contract.UnpackLog(event, "FundsBurned", log); err != nil {
+				event := new(BurnablePaymentFundsBurned)
+				if err := _BurnablePayment.contract.UnpackLog(event, "FundsBurned", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -1666,9 +1666,9 @@ func (_Main *MainFilterer) WatchFundsBurned(opts *bind.WatchOpts, sink chan<- *M
 	}), nil
 }
 
-// MainFundsRecoveredIterator is returned from FilterFundsRecovered and is used to iterate over the raw logs and unpacked data for FundsRecovered events raised by the Main contract.
-type MainFundsRecoveredIterator struct {
-	Event *MainFundsRecovered // Event containing the contract specifics and raw log
+// BurnablePaymentFundsRecoveredIterator is returned from FilterFundsRecovered and is used to iterate over the raw logs and unpacked data for FundsRecovered events raised by the BurnablePayment contract.
+type BurnablePaymentFundsRecoveredIterator struct {
+	Event *BurnablePaymentFundsRecovered // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -1682,7 +1682,7 @@ type MainFundsRecoveredIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *MainFundsRecoveredIterator) Next() bool {
+func (it *BurnablePaymentFundsRecoveredIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -1691,7 +1691,7 @@ func (it *MainFundsRecoveredIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(MainFundsRecovered)
+			it.Event = new(BurnablePaymentFundsRecovered)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -1706,7 +1706,7 @@ func (it *MainFundsRecoveredIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(MainFundsRecovered)
+		it.Event = new(BurnablePaymentFundsRecovered)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -1722,40 +1722,40 @@ func (it *MainFundsRecoveredIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *MainFundsRecoveredIterator) Error() error {
+func (it *BurnablePaymentFundsRecoveredIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *MainFundsRecoveredIterator) Close() error {
+func (it *BurnablePaymentFundsRecoveredIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// MainFundsRecovered represents a FundsRecovered event raised by the Main contract.
-type MainFundsRecovered struct {
+// BurnablePaymentFundsRecovered represents a FundsRecovered event raised by the BurnablePayment contract.
+type BurnablePaymentFundsRecovered struct {
 	Raw types.Log // Blockchain specific contextual infos
 }
 
 // FilterFundsRecovered is a free log retrieval operation binding the contract event 0x8bc5aab0b8d1d51bcc031c58eb657027aac7eaa971cc1038d29846400ca22fc5.
 //
 // Solidity: e FundsRecovered()
-func (_Main *MainFilterer) FilterFundsRecovered(opts *bind.FilterOpts) (*MainFundsRecoveredIterator, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) FilterFundsRecovered(opts *bind.FilterOpts) (*BurnablePaymentFundsRecoveredIterator, error) {
 
-	logs, sub, err := _Main.contract.FilterLogs(opts, "FundsRecovered")
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "FundsRecovered")
 	if err != nil {
 		return nil, err
 	}
-	return &MainFundsRecoveredIterator{contract: _Main.contract, event: "FundsRecovered", logs: logs, sub: sub}, nil
+	return &BurnablePaymentFundsRecoveredIterator{contract: _BurnablePayment.contract, event: "FundsRecovered", logs: logs, sub: sub}, nil
 }
 
 // WatchFundsRecovered is a free log subscription operation binding the contract event 0x8bc5aab0b8d1d51bcc031c58eb657027aac7eaa971cc1038d29846400ca22fc5.
 //
 // Solidity: e FundsRecovered()
-func (_Main *MainFilterer) WatchFundsRecovered(opts *bind.WatchOpts, sink chan<- *MainFundsRecovered) (event.Subscription, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) WatchFundsRecovered(opts *bind.WatchOpts, sink chan<- *BurnablePaymentFundsRecovered) (event.Subscription, error) {
 
-	logs, sub, err := _Main.contract.WatchLogs(opts, "FundsRecovered")
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "FundsRecovered")
 	if err != nil {
 		return nil, err
 	}
@@ -1765,8 +1765,8 @@ func (_Main *MainFilterer) WatchFundsRecovered(opts *bind.WatchOpts, sink chan<-
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(MainFundsRecovered)
-				if err := _Main.contract.UnpackLog(event, "FundsRecovered", log); err != nil {
+				event := new(BurnablePaymentFundsRecovered)
+				if err := _BurnablePayment.contract.UnpackLog(event, "FundsRecovered", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -1787,9 +1787,9 @@ func (_Main *MainFilterer) WatchFundsRecovered(opts *bind.WatchOpts, sink chan<-
 	}), nil
 }
 
-// MainFundsReleasedIterator is returned from FilterFundsReleased and is used to iterate over the raw logs and unpacked data for FundsReleased events raised by the Main contract.
-type MainFundsReleasedIterator struct {
-	Event *MainFundsReleased // Event containing the contract specifics and raw log
+// BurnablePaymentFundsReleasedIterator is returned from FilterFundsReleased and is used to iterate over the raw logs and unpacked data for FundsReleased events raised by the BurnablePayment contract.
+type BurnablePaymentFundsReleasedIterator struct {
+	Event *BurnablePaymentFundsReleased // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -1803,7 +1803,7 @@ type MainFundsReleasedIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *MainFundsReleasedIterator) Next() bool {
+func (it *BurnablePaymentFundsReleasedIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -1812,7 +1812,7 @@ func (it *MainFundsReleasedIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(MainFundsReleased)
+			it.Event = new(BurnablePaymentFundsReleased)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -1827,7 +1827,7 @@ func (it *MainFundsReleasedIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(MainFundsReleased)
+		it.Event = new(BurnablePaymentFundsReleased)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -1843,19 +1843,19 @@ func (it *MainFundsReleasedIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *MainFundsReleasedIterator) Error() error {
+func (it *BurnablePaymentFundsReleasedIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *MainFundsReleasedIterator) Close() error {
+func (it *BurnablePaymentFundsReleasedIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// MainFundsReleased represents a FundsReleased event raised by the Main contract.
-type MainFundsReleased struct {
+// BurnablePaymentFundsReleased represents a FundsReleased event raised by the BurnablePayment contract.
+type BurnablePaymentFundsReleased struct {
 	Amount *big.Int
 	Raw    types.Log // Blockchain specific contextual infos
 }
@@ -1863,21 +1863,21 @@ type MainFundsReleased struct {
 // FilterFundsReleased is a free log retrieval operation binding the contract event 0x952b264c8e0a06cddb4bbaa6d6af1d565145329fd95bbe72cb2b53942b2dc966.
 //
 // Solidity: e FundsReleased(amount uint256)
-func (_Main *MainFilterer) FilterFundsReleased(opts *bind.FilterOpts) (*MainFundsReleasedIterator, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) FilterFundsReleased(opts *bind.FilterOpts) (*BurnablePaymentFundsReleasedIterator, error) {
 
-	logs, sub, err := _Main.contract.FilterLogs(opts, "FundsReleased")
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "FundsReleased")
 	if err != nil {
 		return nil, err
 	}
-	return &MainFundsReleasedIterator{contract: _Main.contract, event: "FundsReleased", logs: logs, sub: sub}, nil
+	return &BurnablePaymentFundsReleasedIterator{contract: _BurnablePayment.contract, event: "FundsReleased", logs: logs, sub: sub}, nil
 }
 
 // WatchFundsReleased is a free log subscription operation binding the contract event 0x952b264c8e0a06cddb4bbaa6d6af1d565145329fd95bbe72cb2b53942b2dc966.
 //
 // Solidity: e FundsReleased(amount uint256)
-func (_Main *MainFilterer) WatchFundsReleased(opts *bind.WatchOpts, sink chan<- *MainFundsReleased) (event.Subscription, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) WatchFundsReleased(opts *bind.WatchOpts, sink chan<- *BurnablePaymentFundsReleased) (event.Subscription, error) {
 
-	logs, sub, err := _Main.contract.WatchLogs(opts, "FundsReleased")
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "FundsReleased")
 	if err != nil {
 		return nil, err
 	}
@@ -1887,8 +1887,8 @@ func (_Main *MainFilterer) WatchFundsReleased(opts *bind.WatchOpts, sink chan<- 
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(MainFundsReleased)
-				if err := _Main.contract.UnpackLog(event, "FundsReleased", log); err != nil {
+				event := new(BurnablePaymentFundsReleased)
+				if err := _BurnablePayment.contract.UnpackLog(event, "FundsReleased", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -1909,9 +1909,9 @@ func (_Main *MainFilterer) WatchFundsReleased(opts *bind.WatchOpts, sink chan<- 
 	}), nil
 }
 
-// MainPayerStatementIterator is returned from FilterPayerStatement and is used to iterate over the raw logs and unpacked data for PayerStatement events raised by the Main contract.
-type MainPayerStatementIterator struct {
-	Event *MainPayerStatement // Event containing the contract specifics and raw log
+// BurnablePaymentPayerStatementIterator is returned from FilterPayerStatement and is used to iterate over the raw logs and unpacked data for PayerStatement events raised by the BurnablePayment contract.
+type BurnablePaymentPayerStatementIterator struct {
+	Event *BurnablePaymentPayerStatement // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -1925,7 +1925,7 @@ type MainPayerStatementIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *MainPayerStatementIterator) Next() bool {
+func (it *BurnablePaymentPayerStatementIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -1934,7 +1934,7 @@ func (it *MainPayerStatementIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(MainPayerStatement)
+			it.Event = new(BurnablePaymentPayerStatement)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -1949,7 +1949,7 @@ func (it *MainPayerStatementIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(MainPayerStatement)
+		it.Event = new(BurnablePaymentPayerStatement)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -1965,19 +1965,19 @@ func (it *MainPayerStatementIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *MainPayerStatementIterator) Error() error {
+func (it *BurnablePaymentPayerStatementIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *MainPayerStatementIterator) Close() error {
+func (it *BurnablePaymentPayerStatementIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// MainPayerStatement represents a PayerStatement event raised by the Main contract.
-type MainPayerStatement struct {
+// BurnablePaymentPayerStatement represents a PayerStatement event raised by the BurnablePayment contract.
+type BurnablePaymentPayerStatement struct {
 	Statement string
 	Raw       types.Log // Blockchain specific contextual infos
 }
@@ -1985,21 +1985,21 @@ type MainPayerStatement struct {
 // FilterPayerStatement is a free log retrieval operation binding the contract event 0x21dce665866130bddd42cadae51db6d5093826abb5e5309d67ab8589c7e92694.
 //
 // Solidity: e PayerStatement(statement string)
-func (_Main *MainFilterer) FilterPayerStatement(opts *bind.FilterOpts) (*MainPayerStatementIterator, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) FilterPayerStatement(opts *bind.FilterOpts) (*BurnablePaymentPayerStatementIterator, error) {
 
-	logs, sub, err := _Main.contract.FilterLogs(opts, "PayerStatement")
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "PayerStatement")
 	if err != nil {
 		return nil, err
 	}
-	return &MainPayerStatementIterator{contract: _Main.contract, event: "PayerStatement", logs: logs, sub: sub}, nil
+	return &BurnablePaymentPayerStatementIterator{contract: _BurnablePayment.contract, event: "PayerStatement", logs: logs, sub: sub}, nil
 }
 
 // WatchPayerStatement is a free log subscription operation binding the contract event 0x21dce665866130bddd42cadae51db6d5093826abb5e5309d67ab8589c7e92694.
 //
 // Solidity: e PayerStatement(statement string)
-func (_Main *MainFilterer) WatchPayerStatement(opts *bind.WatchOpts, sink chan<- *MainPayerStatement) (event.Subscription, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) WatchPayerStatement(opts *bind.WatchOpts, sink chan<- *BurnablePaymentPayerStatement) (event.Subscription, error) {
 
-	logs, sub, err := _Main.contract.WatchLogs(opts, "PayerStatement")
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "PayerStatement")
 	if err != nil {
 		return nil, err
 	}
@@ -2009,8 +2009,8 @@ func (_Main *MainFilterer) WatchPayerStatement(opts *bind.WatchOpts, sink chan<-
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(MainPayerStatement)
-				if err := _Main.contract.UnpackLog(event, "PayerStatement", log); err != nil {
+				event := new(BurnablePaymentPayerStatement)
+				if err := _BurnablePayment.contract.UnpackLog(event, "PayerStatement", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -2031,9 +2031,9 @@ func (_Main *MainFilterer) WatchPayerStatement(opts *bind.WatchOpts, sink chan<-
 	}), nil
 }
 
-// MainUnclosedIterator is returned from FilterUnclosed and is used to iterate over the raw logs and unpacked data for Unclosed events raised by the Main contract.
-type MainUnclosedIterator struct {
-	Event *MainUnclosed // Event containing the contract specifics and raw log
+// BurnablePaymentUnclosedIterator is returned from FilterUnclosed and is used to iterate over the raw logs and unpacked data for Unclosed events raised by the BurnablePayment contract.
+type BurnablePaymentUnclosedIterator struct {
+	Event *BurnablePaymentUnclosed // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -2047,7 +2047,7 @@ type MainUnclosedIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *MainUnclosedIterator) Next() bool {
+func (it *BurnablePaymentUnclosedIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -2056,7 +2056,7 @@ func (it *MainUnclosedIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(MainUnclosed)
+			it.Event = new(BurnablePaymentUnclosed)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -2071,7 +2071,7 @@ func (it *MainUnclosedIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(MainUnclosed)
+		it.Event = new(BurnablePaymentUnclosed)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -2087,40 +2087,40 @@ func (it *MainUnclosedIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *MainUnclosedIterator) Error() error {
+func (it *BurnablePaymentUnclosedIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *MainUnclosedIterator) Close() error {
+func (it *BurnablePaymentUnclosedIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// MainUnclosed represents a Unclosed event raised by the Main contract.
-type MainUnclosed struct {
+// BurnablePaymentUnclosed represents a Unclosed event raised by the BurnablePayment contract.
+type BurnablePaymentUnclosed struct {
 	Raw types.Log // Blockchain specific contextual infos
 }
 
 // FilterUnclosed is a free log retrieval operation binding the contract event 0x295a49ca32ac44ceb5c58aec886eeaf13b1a9cadee420af4c63ed7f1bc75b75b.
 //
 // Solidity: e Unclosed()
-func (_Main *MainFilterer) FilterUnclosed(opts *bind.FilterOpts) (*MainUnclosedIterator, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) FilterUnclosed(opts *bind.FilterOpts) (*BurnablePaymentUnclosedIterator, error) {
 
-	logs, sub, err := _Main.contract.FilterLogs(opts, "Unclosed")
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "Unclosed")
 	if err != nil {
 		return nil, err
 	}
-	return &MainUnclosedIterator{contract: _Main.contract, event: "Unclosed", logs: logs, sub: sub}, nil
+	return &BurnablePaymentUnclosedIterator{contract: _BurnablePayment.contract, event: "Unclosed", logs: logs, sub: sub}, nil
 }
 
 // WatchUnclosed is a free log subscription operation binding the contract event 0x295a49ca32ac44ceb5c58aec886eeaf13b1a9cadee420af4c63ed7f1bc75b75b.
 //
 // Solidity: e Unclosed()
-func (_Main *MainFilterer) WatchUnclosed(opts *bind.WatchOpts, sink chan<- *MainUnclosed) (event.Subscription, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) WatchUnclosed(opts *bind.WatchOpts, sink chan<- *BurnablePaymentUnclosed) (event.Subscription, error) {
 
-	logs, sub, err := _Main.contract.WatchLogs(opts, "Unclosed")
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "Unclosed")
 	if err != nil {
 		return nil, err
 	}
@@ -2130,8 +2130,8 @@ func (_Main *MainFilterer) WatchUnclosed(opts *bind.WatchOpts, sink chan<- *Main
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(MainUnclosed)
-				if err := _Main.contract.UnpackLog(event, "Unclosed", log); err != nil {
+				event := new(BurnablePaymentUnclosed)
+				if err := _BurnablePayment.contract.UnpackLog(event, "Unclosed", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -2152,9 +2152,9 @@ func (_Main *MainFilterer) WatchUnclosed(opts *bind.WatchOpts, sink chan<- *Main
 	}), nil
 }
 
-// MainWorkerStatementIterator is returned from FilterWorkerStatement and is used to iterate over the raw logs and unpacked data for WorkerStatement events raised by the Main contract.
-type MainWorkerStatementIterator struct {
-	Event *MainWorkerStatement // Event containing the contract specifics and raw log
+// BurnablePaymentWorkerStatementIterator is returned from FilterWorkerStatement and is used to iterate over the raw logs and unpacked data for WorkerStatement events raised by the BurnablePayment contract.
+type BurnablePaymentWorkerStatementIterator struct {
+	Event *BurnablePaymentWorkerStatement // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -2168,7 +2168,7 @@ type MainWorkerStatementIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *MainWorkerStatementIterator) Next() bool {
+func (it *BurnablePaymentWorkerStatementIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -2177,7 +2177,7 @@ func (it *MainWorkerStatementIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(MainWorkerStatement)
+			it.Event = new(BurnablePaymentWorkerStatement)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -2192,7 +2192,7 @@ func (it *MainWorkerStatementIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(MainWorkerStatement)
+		it.Event = new(BurnablePaymentWorkerStatement)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -2208,19 +2208,19 @@ func (it *MainWorkerStatementIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *MainWorkerStatementIterator) Error() error {
+func (it *BurnablePaymentWorkerStatementIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *MainWorkerStatementIterator) Close() error {
+func (it *BurnablePaymentWorkerStatementIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// MainWorkerStatement represents a WorkerStatement event raised by the Main contract.
-type MainWorkerStatement struct {
+// BurnablePaymentWorkerStatement represents a WorkerStatement event raised by the BurnablePayment contract.
+type BurnablePaymentWorkerStatement struct {
 	Statement string
 	Raw       types.Log // Blockchain specific contextual infos
 }
@@ -2228,21 +2228,21 @@ type MainWorkerStatement struct {
 // FilterWorkerStatement is a free log retrieval operation binding the contract event 0x337c87ca7e10f4ba0201da47ad3a16b990a1198718c55f51688d80da2a35cb75.
 //
 // Solidity: e WorkerStatement(statement string)
-func (_Main *MainFilterer) FilterWorkerStatement(opts *bind.FilterOpts) (*MainWorkerStatementIterator, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) FilterWorkerStatement(opts *bind.FilterOpts) (*BurnablePaymentWorkerStatementIterator, error) {
 
-	logs, sub, err := _Main.contract.FilterLogs(opts, "WorkerStatement")
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "WorkerStatement")
 	if err != nil {
 		return nil, err
 	}
-	return &MainWorkerStatementIterator{contract: _Main.contract, event: "WorkerStatement", logs: logs, sub: sub}, nil
+	return &BurnablePaymentWorkerStatementIterator{contract: _BurnablePayment.contract, event: "WorkerStatement", logs: logs, sub: sub}, nil
 }
 
 // WatchWorkerStatement is a free log subscription operation binding the contract event 0x337c87ca7e10f4ba0201da47ad3a16b990a1198718c55f51688d80da2a35cb75.
 //
 // Solidity: e WorkerStatement(statement string)
-func (_Main *MainFilterer) WatchWorkerStatement(opts *bind.WatchOpts, sink chan<- *MainWorkerStatement) (event.Subscription, error) {
+func (_BurnablePayment *BurnablePaymentFilterer) WatchWorkerStatement(opts *bind.WatchOpts, sink chan<- *BurnablePaymentWorkerStatement) (event.Subscription, error) {
 
-	logs, sub, err := _Main.contract.WatchLogs(opts, "WorkerStatement")
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "WorkerStatement")
 	if err != nil {
 		return nil, err
 	}
@@ -2252,8 +2252,8 @@ func (_Main *MainFilterer) WatchWorkerStatement(opts *bind.WatchOpts, sink chan<
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(MainWorkerStatement)
-				if err := _Main.contract.UnpackLog(event, "WorkerStatement", log); err != nil {
+				event := new(BurnablePaymentWorkerStatement)
+				if err := _BurnablePayment.contract.UnpackLog(event, "WorkerStatement", log); err != nil {
 					return err
 				}
 				event.Raw = log
