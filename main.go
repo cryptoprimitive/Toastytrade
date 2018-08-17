@@ -1,10 +1,15 @@
 package main
 
 import (
+	"math/big"
+	"context"
 	"html/template"
 	"log"
 	"net/http"
+	"github.com/ethereum/go-ethereum"
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/SomniaStellarum/StellarUtilities/slog"
 )
 
@@ -78,9 +83,38 @@ func getUserEmail(w http.ResponseWriter, r *http.Request) {
 }
 
 func test(w http.ResponseWriter, r *http.Request) {
-	sendTheMail();
+	w.Write([]byte("Running test func"))
 
-	w.Write([]byte("testing!"))
+	cli, err := ethclient.Dial("wss://ropsten.infura.io/ws")
+
+	if err != nil {
+		log.Panic("Didn't work: ", err)
+	}
+
+	ctx := context.Background()
+
+	fq := ethereum.FilterQuery {}
+	fq.FromBlock = big.NewInt(3810620)
+	fq.Addresses = []common.Address{common.HexToAddress("0x69FC16ee0b64c53FAfE516b458CC42D2e19Af566")}
+
+	logs, err := cli.FilterLogs(ctx, fq)
+
+	if err != nil {
+		log.Panic("Error fetching logs: ", err)
+	}
+
+	for i := 0; i < len(logs); i++ {
+		slog.DebugPrint("Comparing: ", logs[i].Topics[0].Hex(), crypto.Keccak256Hash([]byte("ClaimStarted()")).Hex())
+		if logs[i].Topics[0] == crypto.Keccak256Hash([]byte("ClaimStarted()")) {
+			slog.DebugPrint("Match!")
+		}
+	}
+
+	//slog.DebugPrint(logs[0].Topics[0].Hex())
+
+	cli.Close()
+
+	w.Write([]byte("Test func finished"))
 }
 
 type logRequester struct {

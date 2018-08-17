@@ -38,6 +38,7 @@ func RegisterAndPopulateToastytrade(addr common.Address) (err error) {
 	slog.DebugPrint("Okay, gonna totally register and populate toastytrade for address ", addr.Hex())
 
 	return nil
+}
 
 func GetOffer(OfferAddress common.Address) (offerEntry *offerDBEntry, err error) {
 	v, err := offerdb.Get(OfferAddress.Bytes(), nil)
