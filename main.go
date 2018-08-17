@@ -107,6 +107,9 @@ func test(w http.ResponseWriter, r *http.Request) {
 		slog.DebugPrint("Comparing: ", logs[i].Topics[0].Hex(), crypto.Keccak256Hash([]byte("ClaimStarted()")).Hex())
 		if logs[i].Topics[0] == crypto.Keccak256Hash([]byte("ClaimStarted()")) {
 			slog.DebugPrint("Match!")
+			//create new event and decode (see line 287, 288 in ToastytradeFactory.go for an example)
+			//get BPcontract address from logs[i].address
+			//pass contract addr, event name, and decoded event off to be massaged into an email notification
 		}
 	}
 
