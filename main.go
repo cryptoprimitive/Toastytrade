@@ -104,18 +104,19 @@ func test(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for i := 0; i < len(logs); i++ {
-		slog.DebugPrint("Comparing: ", logs[i].Topics[0].Hex(), crypto.Keccak256Hash([]byte("ClaimStarted()")).Hex())
-		if logs[i].Topics[0] == crypto.Keccak256Hash([]byte("ClaimStarted()")) {
+		if logs[i].Topics[0] == crypto.Keccak256Hash([]byte("Committed(address)")) {
 
 			//create new contract
-			//bp, err := NewBurnablePayment(logs[i].Address, cli)
-			//if err != nil {
-			//	log.Panic("NewBurnablePayment error: ", err)
-			//}
+			bp, err := NewBurnablePayment(logs[i].Address, cli)
+			if err != nil {
+				log.Panic("NewBurnablePayment error: ", err)
+			}
 
 			//decode event
-			//event := new(BurnablePaymentClaimStarted)
-			//bp.BoundContract.UnpackLog()
+			event := new(BurnablePaymentCommitted)
+			bp.BurnablePaymentFilterer.contract.UnpackLog(event, "Committed", logs[i])
+
+			slog.DebugPrint(event.Committer.Hex())
 
 			//get BPcontract address from logs[i].address
 			//pass contract addr, event name, and decoded event off to be massaged into an email notification
