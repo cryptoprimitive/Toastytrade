@@ -54,13 +54,13 @@ contract BurnablePaymentFactory {
     );
 
     function newBP(bool payerOpened, address creator, uint commitThreshold, uint autoreleaseInterval, string title, string initialStatement)
-    public
+    external
     payable
     returns (address newBPAddr)
     {
         //pass along any ether to the constructor
         newBPAddr = (new BurnablePayment).value(msg.value)(payerOpened, creator, commitThreshold, autoreleaseInterval, title, initialStatement);
-        NewBurnablePayment(newBPAddr, payerOpened, creator, msg.value, commitThreshold, autoreleaseInterval, title, initialStatement);
+        emit NewBurnablePayment(newBPAddr, payerOpened, creator, msg.value, commitThreshold, autoreleaseInterval, title, initialStatement);
 
         BPs.push(newBPAddr);
 
@@ -68,7 +68,7 @@ contract BurnablePaymentFactory {
     }
 
     function getBPCount()
-    public
+    external
     constant
     returns(uint)
     {
@@ -109,6 +109,7 @@ contract BurnablePayment {
         PayerOpened,
         WorkerOpened,
         Committed,
+        Claimed,
         Closed
     }
 
@@ -122,6 +123,10 @@ contract BurnablePayment {
     }
     modifier inOpenState() {
         require(state == State.PayerOpened || state == State.WorkerOpened);
+        _;
+    }
+    modifier inCommittedOrClaimedState() {
+        require(state == State.Committed || state == State.Claimed);
         _;
     }
     modifier onlyPayer() {
@@ -155,20 +160,20 @@ contract BurnablePayment {
     event Committed(address committer);
     event FundsBurned(uint amount);
     event FundsReleased(uint amount);
+    event ClaimStarted();
+    event ClaimCanceled();
+    event ClaimTriggered();
     event Closed();
     event Unclosed();
-    event AutoreleaseDelayed();
-    event AutoreleaseTriggered();
 
     constructor(bool payerIsOpening, address creator, uint _commitThreshold, uint _autoreleaseInterval, string _title, string initialStatement)
-    public
     payable
     {
-        Created(this, payerIsOpening, creator, _commitThreshold, autoreleaseInterval, title);
+        emit Created(this, payerIsOpening, creator, _commitThreshold, autoreleaseInterval, title);
 
         if (msg.value > 0) {
             //Here we use tx.origin instead of msg.sender (msg.sender is just the factory contract)
-            FundsAdded(tx.origin, msg.value);
+            emit FundsAdded(tx.origin, msg.value);
             amountDeposited += msg.value;
         }
 
@@ -187,34 +192,34 @@ contract BurnablePayment {
 
         if (bytes(initialStatement).length > 0) {
             if (payerIsOpening) {
-                PayerStatement(initialStatement);
+                emit PayerStatement(initialStatement);
             } else {
-                WorkerStatement(initialStatement);
+                emit WorkerStatement(initialStatement);
             }
         }
     }
 
     function addFunds()
-    public
+    external
     payable
     onlyPayerOrWorker()
     {
         require(msg.value > 0);
 
-        FundsAdded(msg.sender, msg.value);
+        emit FundsAdded(msg.sender, msg.value);
         amountDeposited += msg.value;
         if (state == State.Closed) {
             state = State.Committed;
-            Unclosed();
+            emit Unclosed();
         }
     }
 
     function recoverFunds()
-    public
+    external
     onlyCreatorWhileOpen()
     {
         recovered = true;
-        FundsRecovered();
+        emit FundsRecovered();
 
         if (state == State.PayerOpened)
             selfdestruct(payer);
@@ -223,14 +228,14 @@ contract BurnablePayment {
     }
 
     function commit()
-    public
+    external
     inOpenState()
     payable
     {
         require(msg.value == commitThreshold);
 
         if (msg.value > 0) {
-            FundsAdded(msg.sender, msg.value);
+            emit FundsAdded(msg.sender, msg.value);
             amountDeposited += msg.value;
         }
 
@@ -240,93 +245,105 @@ contract BurnablePayment {
             payer = msg.sender;
         state = State.Committed;
 
-        Committed(msg.sender);
+        emit Committed(msg.sender);
+    }
+
+    function startClaim()
+    external
+    inState(State.Committed)
+    onlyWorker()
+    {
+        state = State.Claimed;
 
         autoreleaseTime = now + autoreleaseInterval;
+
+        emit ClaimStarted();
+    }
+
+    function cancelClaim()
+    external
+    onlyPayer()
+    inState(State.Claimed)
+    {
+        state = State.Committed;
+
+        emit ClaimCanceled();
+    }
+
+    function triggerClaim()
+    external
+    onlyWorker()
+    inState(State.Claimed)
+    {
+        require(now >= autoreleaseTime);
+
+        emit ClaimTriggered();
+
+        internalRelease(address(this).balance);
     }
 
     function internalBurn(uint amount)
-    private
+    internal
     {
         BURN_ADDRESS.transfer(amount);
 
         amountBurned += amount;
-        FundsBurned(amount);
+        emit FundsBurned(amount);
 
-        if (this.balance == 0) {
+        if (address(this).balance == 0) {
             state = State.Closed;
-            Closed();
+            emit Closed();
         }
     }
 
     function burn(uint amount)
-    public
-    inState(State.Committed)
+    external
+    inCommittedOrClaimedState()
     onlyPayer()
     {
         internalBurn(amount);
     }
 
     function internalRelease(uint amount)
-    private
+    internal
     {
         worker.transfer(amount);
 
         amountReleased += amount;
-        FundsReleased(amount);
+        emit FundsReleased(amount);
 
-        if (this.balance == 0) {
+        if (address(this).balance == 0) {
             state = State.Closed;
-            Closed();
+            emit Closed();
         }
     }
 
     function release(uint amount)
-    public
-    inState(State.Committed)
+    external
+    inCommittedOrClaimedState()
     onlyPayer()
     {
         internalRelease(amount);
     }
 
     function logPayerStatement(string statement)
-    public
+    external
     onlyPayer()
     {
-        PayerStatement(statement);
+        emit PayerStatement(statement);
     }
 
     function logWorkerStatement(string statement)
-    public
+    external
     onlyWorker()
     {
-        WorkerStatement(statement);
-    }
-
-    function delayAutorelease()
-    public
-    onlyPayer()
-    inState(State.Committed)
-    {
-        autoreleaseTime = now + autoreleaseInterval;
-        AutoreleaseDelayed();
-    }
-
-    function triggerAutorelease()
-    public
-    onlyWorker()
-    inState(State.Committed)
-    {
-        require(now >= autoreleaseTime);
-
-        AutoreleaseTriggered();
-        internalRelease(this.balance);
+        emit WorkerStatement(statement);
     }
 
     function getFullState()
     public
     constant
     returns(State, address, address, string, uint, uint, uint, uint, uint, uint, uint) {
-        return (state, payer, worker, title, this.balance, commitThreshold, amountDeposited, amountBurned, amountReleased, autoreleaseInterval, autoreleaseTime);
+        return (state, payer, worker, title, address(this).balance, commitThreshold, amountDeposited, amountBurned, amountReleased, autoreleaseInterval, autoreleaseTime);
     }
 }
