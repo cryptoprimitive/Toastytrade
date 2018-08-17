@@ -16,7 +16,7 @@ import (
 )
 
 // ToastytradeFactoryABI is the input ABI used to generate the binding from.
-const ToastytradeFactoryABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"notifyServiceProvider\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"toastytrades\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"notifyServiceFee\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"seller\",\"type\":\"address\"},{\"name\":\"autoreleaseInterval\",\"type\":\"uint256\"},{\"name\":\"_details\",\"type\":\"string\"}],\"name\":\"newToastytrade\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"toastytradeAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"BurnablePaymentAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"offerDetails\",\"type\":\"string\"}],\"name\":\"ToastytradeCreated\",\"type\":\"event\"}]"
+const ToastytradeFactoryABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"notifyServiceProvider\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"notifyServiceFee\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"seller\",\"type\":\"address\"},{\"name\":\"autoreleaseInterval\",\"type\":\"uint256\"},{\"name\":\"_details\",\"type\":\"string\"}],\"name\":\"newToastytrade\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"toastytradeAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"details\",\"type\":\"string\"}],\"name\":\"ToastytradeCreated\",\"type\":\"event\"}]"
 
 // ToastytradeFactory is an auto generated Go binding around an Ethereum contract.
 type ToastytradeFactory struct {
@@ -212,32 +212,6 @@ func (_ToastytradeFactory *ToastytradeFactoryCallerSession) NotifyServiceProvide
 	return _ToastytradeFactory.Contract.NotifyServiceProvider(&_ToastytradeFactory.CallOpts)
 }
 
-// Toastytrades is a free data retrieval call binding the contract method 0x49dfa24f.
-//
-// Solidity: function toastytrades( uint256) constant returns(address)
-func (_ToastytradeFactory *ToastytradeFactoryCaller) Toastytrades(opts *bind.CallOpts, arg0 *big.Int) (common.Address, error) {
-	var (
-		ret0 = new(common.Address)
-	)
-	out := ret0
-	err := _ToastytradeFactory.contract.Call(opts, out, "toastytrades", arg0)
-	return *ret0, err
-}
-
-// Toastytrades is a free data retrieval call binding the contract method 0x49dfa24f.
-//
-// Solidity: function toastytrades( uint256) constant returns(address)
-func (_ToastytradeFactory *ToastytradeFactorySession) Toastytrades(arg0 *big.Int) (common.Address, error) {
-	return _ToastytradeFactory.Contract.Toastytrades(&_ToastytradeFactory.CallOpts, arg0)
-}
-
-// Toastytrades is a free data retrieval call binding the contract method 0x49dfa24f.
-//
-// Solidity: function toastytrades( uint256) constant returns(address)
-func (_ToastytradeFactory *ToastytradeFactoryCallerSession) Toastytrades(arg0 *big.Int) (common.Address, error) {
-	return _ToastytradeFactory.Contract.Toastytrades(&_ToastytradeFactory.CallOpts, arg0)
-}
-
 // NewToastytrade is a paid mutator transaction binding the contract method 0xe10c2957.
 //
 // Solidity: function newToastytrade(seller address, autoreleaseInterval uint256, _details string) returns()
@@ -328,15 +302,14 @@ func (it *ToastytradeFactoryToastytradeCreatedIterator) Close() error {
 
 // ToastytradeFactoryToastytradeCreated represents a ToastytradeCreated event raised by the ToastytradeFactory contract.
 type ToastytradeFactoryToastytradeCreated struct {
-	ToastytradeAddress     common.Address
-	BurnablePaymentAddress common.Address
-	OfferDetails           string
-	Raw                    types.Log // Blockchain specific contextual infos
+	ToastytradeAddress common.Address
+	Details            string
+	Raw                types.Log // Blockchain specific contextual infos
 }
 
-// FilterToastytradeCreated is a free log retrieval operation binding the contract event 0x5f2901d52a8a8754fa06b732431a7e4de8afb34a301f4fc1a4589e64e2480f52.
+// FilterToastytradeCreated is a free log retrieval operation binding the contract event 0xa81bcfe83c120fa0c03db992f6be954fd2205edafded521ab1059a0318ac1465.
 //
-// Solidity: e ToastytradeCreated(toastytradeAddress address, BurnablePaymentAddress address, offerDetails string)
+// Solidity: e ToastytradeCreated(toastytradeAddress address, details string)
 func (_ToastytradeFactory *ToastytradeFactoryFilterer) FilterToastytradeCreated(opts *bind.FilterOpts) (*ToastytradeFactoryToastytradeCreatedIterator, error) {
 
 	logs, sub, err := _ToastytradeFactory.contract.FilterLogs(opts, "ToastytradeCreated")
@@ -346,9 +319,9 @@ func (_ToastytradeFactory *ToastytradeFactoryFilterer) FilterToastytradeCreated(
 	return &ToastytradeFactoryToastytradeCreatedIterator{contract: _ToastytradeFactory.contract, event: "ToastytradeCreated", logs: logs, sub: sub}, nil
 }
 
-// WatchToastytradeCreated is a free log subscription operation binding the contract event 0x5f2901d52a8a8754fa06b732431a7e4de8afb34a301f4fc1a4589e64e2480f52.
+// WatchToastytradeCreated is a free log subscription operation binding the contract event 0xa81bcfe83c120fa0c03db992f6be954fd2205edafded521ab1059a0318ac1465.
 //
-// Solidity: e ToastytradeCreated(toastytradeAddress address, BurnablePaymentAddress address, offerDetails string)
+// Solidity: e ToastytradeCreated(toastytradeAddress address, details string)
 func (_ToastytradeFactory *ToastytradeFactoryFilterer) WatchToastytradeCreated(opts *bind.WatchOpts, sink chan<- *ToastytradeFactoryToastytradeCreated) (event.Subscription, error) {
 
 	logs, sub, err := _ToastytradeFactory.contract.WatchLogs(opts, "ToastytradeCreated")

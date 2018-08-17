@@ -16,7 +16,7 @@ import (
 )
 
 // BurnablePaymentABI is the input ABI used to generate the binding from.
-const BurnablePaymentABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"payer\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"delayAutorelease\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"release\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"commit\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"title\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"worker\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"amountBurned\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"autoreleaseInterval\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"logPayerStatement\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"triggerAutorelease\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getFullState\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"},{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"string\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"addFunds\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"recoverFunds\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"autoreleaseTime\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"state\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"amountReleased\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"commitThreshold\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"logWorkerStatement\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"amountDeposited\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"payerIsOpening\",\"type\":\"bool\"},{\"name\":\"creator\",\"type\":\"address\"},{\"name\":\"_commitThreshold\",\"type\":\"uint256\"},{\"name\":\"_autoreleaseInterval\",\"type\":\"uint256\"},{\"name\":\"_title\",\"type\":\"string\"},{\"name\":\"initialStatement\",\"type\":\"string\"}],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"contractAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"payerOpened\",\"type\":\"bool\"},{\"indexed\":false,\"name\":\"creator\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"commitThreshold\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"autoreleaseInterval\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"title\",\"type\":\"string\"}],\"name\":\"Created\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"from\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FundsAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"PayerStatement\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"WorkerStatement\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"FundsRecovered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"committer\",\"type\":\"address\"}],\"name\":\"Committed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FundsBurned\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FundsReleased\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"Closed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"Unclosed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"AutoreleaseDelayed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"AutoreleaseTriggered\",\"type\":\"event\"}]"
+const BurnablePaymentABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"payer\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"cancelClaim\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"release\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"commit\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"title\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"worker\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"amountBurned\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"autoreleaseInterval\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"logPayerStatement\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getFullState\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"},{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"string\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"addFunds\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"recoverFunds\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"autoreleaseTime\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"state\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"amountReleased\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"commitThreshold\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"startClaim\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"triggerClaim\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"logWorkerStatement\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"amountDeposited\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"payerIsOpening\",\"type\":\"bool\"},{\"name\":\"creator\",\"type\":\"address\"},{\"name\":\"_commitThreshold\",\"type\":\"uint256\"},{\"name\":\"_autoreleaseInterval\",\"type\":\"uint256\"},{\"name\":\"_title\",\"type\":\"string\"},{\"name\":\"initialStatement\",\"type\":\"string\"}],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"contractAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"payerOpened\",\"type\":\"bool\"},{\"indexed\":false,\"name\":\"creator\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"commitThreshold\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"autoreleaseInterval\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"title\",\"type\":\"string\"}],\"name\":\"Created\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"from\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FundsAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"PayerStatement\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"statement\",\"type\":\"string\"}],\"name\":\"WorkerStatement\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"FundsRecovered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"committer\",\"type\":\"address\"}],\"name\":\"Committed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FundsBurned\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FundsReleased\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"ClaimStarted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"ClaimCanceled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"ClaimTriggered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"Closed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[],\"name\":\"Unclosed\",\"type\":\"event\"}]"
 
 // BurnablePayment is an auto generated Go binding around an Ethereum contract.
 type BurnablePayment struct {
@@ -510,6 +510,27 @@ func (_BurnablePayment *BurnablePaymentTransactorSession) Burn(amount *big.Int) 
 	return _BurnablePayment.Contract.Burn(&_BurnablePayment.TransactOpts, amount)
 }
 
+// CancelClaim is a paid mutator transaction binding the contract method 0x2bd7cc0f.
+//
+// Solidity: function cancelClaim() returns()
+func (_BurnablePayment *BurnablePaymentTransactor) CancelClaim(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _BurnablePayment.contract.Transact(opts, "cancelClaim")
+}
+
+// CancelClaim is a paid mutator transaction binding the contract method 0x2bd7cc0f.
+//
+// Solidity: function cancelClaim() returns()
+func (_BurnablePayment *BurnablePaymentSession) CancelClaim() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.CancelClaim(&_BurnablePayment.TransactOpts)
+}
+
+// CancelClaim is a paid mutator transaction binding the contract method 0x2bd7cc0f.
+//
+// Solidity: function cancelClaim() returns()
+func (_BurnablePayment *BurnablePaymentTransactorSession) CancelClaim() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.CancelClaim(&_BurnablePayment.TransactOpts)
+}
+
 // Commit is a paid mutator transaction binding the contract method 0x3c7a3aff.
 //
 // Solidity: function commit() returns()
@@ -529,27 +550,6 @@ func (_BurnablePayment *BurnablePaymentSession) Commit() (*types.Transaction, er
 // Solidity: function commit() returns()
 func (_BurnablePayment *BurnablePaymentTransactorSession) Commit() (*types.Transaction, error) {
 	return _BurnablePayment.Contract.Commit(&_BurnablePayment.TransactOpts)
-}
-
-// DelayAutorelease is a paid mutator transaction binding the contract method 0x127b0901.
-//
-// Solidity: function delayAutorelease() returns()
-func (_BurnablePayment *BurnablePaymentTransactor) DelayAutorelease(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _BurnablePayment.contract.Transact(opts, "delayAutorelease")
-}
-
-// DelayAutorelease is a paid mutator transaction binding the contract method 0x127b0901.
-//
-// Solidity: function delayAutorelease() returns()
-func (_BurnablePayment *BurnablePaymentSession) DelayAutorelease() (*types.Transaction, error) {
-	return _BurnablePayment.Contract.DelayAutorelease(&_BurnablePayment.TransactOpts)
-}
-
-// DelayAutorelease is a paid mutator transaction binding the contract method 0x127b0901.
-//
-// Solidity: function delayAutorelease() returns()
-func (_BurnablePayment *BurnablePaymentTransactorSession) DelayAutorelease() (*types.Transaction, error) {
-	return _BurnablePayment.Contract.DelayAutorelease(&_BurnablePayment.TransactOpts)
 }
 
 // LogPayerStatement is a paid mutator transaction binding the contract method 0x7345da39.
@@ -636,30 +636,51 @@ func (_BurnablePayment *BurnablePaymentTransactorSession) Release(amount *big.In
 	return _BurnablePayment.Contract.Release(&_BurnablePayment.TransactOpts, amount)
 }
 
-// TriggerAutorelease is a paid mutator transaction binding the contract method 0x7d6ad4cd.
+// StartClaim is a paid mutator transaction binding the contract method 0xecbfc077.
 //
-// Solidity: function triggerAutorelease() returns()
-func (_BurnablePayment *BurnablePaymentTransactor) TriggerAutorelease(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _BurnablePayment.contract.Transact(opts, "triggerAutorelease")
+// Solidity: function startClaim() returns()
+func (_BurnablePayment *BurnablePaymentTransactor) StartClaim(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _BurnablePayment.contract.Transact(opts, "startClaim")
 }
 
-// TriggerAutorelease is a paid mutator transaction binding the contract method 0x7d6ad4cd.
+// StartClaim is a paid mutator transaction binding the contract method 0xecbfc077.
 //
-// Solidity: function triggerAutorelease() returns()
-func (_BurnablePayment *BurnablePaymentSession) TriggerAutorelease() (*types.Transaction, error) {
-	return _BurnablePayment.Contract.TriggerAutorelease(&_BurnablePayment.TransactOpts)
+// Solidity: function startClaim() returns()
+func (_BurnablePayment *BurnablePaymentSession) StartClaim() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.StartClaim(&_BurnablePayment.TransactOpts)
 }
 
-// TriggerAutorelease is a paid mutator transaction binding the contract method 0x7d6ad4cd.
+// StartClaim is a paid mutator transaction binding the contract method 0xecbfc077.
 //
-// Solidity: function triggerAutorelease() returns()
-func (_BurnablePayment *BurnablePaymentTransactorSession) TriggerAutorelease() (*types.Transaction, error) {
-	return _BurnablePayment.Contract.TriggerAutorelease(&_BurnablePayment.TransactOpts)
+// Solidity: function startClaim() returns()
+func (_BurnablePayment *BurnablePaymentTransactorSession) StartClaim() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.StartClaim(&_BurnablePayment.TransactOpts)
 }
 
-// BurnablePaymentAutoreleaseDelayedIterator is returned from FilterAutoreleaseDelayed and is used to iterate over the raw logs and unpacked data for AutoreleaseDelayed events raised by the BurnablePayment contract.
-type BurnablePaymentAutoreleaseDelayedIterator struct {
-	Event *BurnablePaymentAutoreleaseDelayed // Event containing the contract specifics and raw log
+// TriggerClaim is a paid mutator transaction binding the contract method 0xef21fe5a.
+//
+// Solidity: function triggerClaim() returns()
+func (_BurnablePayment *BurnablePaymentTransactor) TriggerClaim(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _BurnablePayment.contract.Transact(opts, "triggerClaim")
+}
+
+// TriggerClaim is a paid mutator transaction binding the contract method 0xef21fe5a.
+//
+// Solidity: function triggerClaim() returns()
+func (_BurnablePayment *BurnablePaymentSession) TriggerClaim() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.TriggerClaim(&_BurnablePayment.TransactOpts)
+}
+
+// TriggerClaim is a paid mutator transaction binding the contract method 0xef21fe5a.
+//
+// Solidity: function triggerClaim() returns()
+func (_BurnablePayment *BurnablePaymentTransactorSession) TriggerClaim() (*types.Transaction, error) {
+	return _BurnablePayment.Contract.TriggerClaim(&_BurnablePayment.TransactOpts)
+}
+
+// BurnablePaymentClaimCanceledIterator is returned from FilterClaimCanceled and is used to iterate over the raw logs and unpacked data for ClaimCanceled events raised by the BurnablePayment contract.
+type BurnablePaymentClaimCanceledIterator struct {
+	Event *BurnablePaymentClaimCanceled // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -673,7 +694,7 @@ type BurnablePaymentAutoreleaseDelayedIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *BurnablePaymentAutoreleaseDelayedIterator) Next() bool {
+func (it *BurnablePaymentClaimCanceledIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -682,7 +703,7 @@ func (it *BurnablePaymentAutoreleaseDelayedIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(BurnablePaymentAutoreleaseDelayed)
+			it.Event = new(BurnablePaymentClaimCanceled)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -697,7 +718,7 @@ func (it *BurnablePaymentAutoreleaseDelayedIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(BurnablePaymentAutoreleaseDelayed)
+		it.Event = new(BurnablePaymentClaimCanceled)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -713,40 +734,40 @@ func (it *BurnablePaymentAutoreleaseDelayedIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *BurnablePaymentAutoreleaseDelayedIterator) Error() error {
+func (it *BurnablePaymentClaimCanceledIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *BurnablePaymentAutoreleaseDelayedIterator) Close() error {
+func (it *BurnablePaymentClaimCanceledIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// BurnablePaymentAutoreleaseDelayed represents a AutoreleaseDelayed event raised by the BurnablePayment contract.
-type BurnablePaymentAutoreleaseDelayed struct {
+// BurnablePaymentClaimCanceled represents a ClaimCanceled event raised by the BurnablePayment contract.
+type BurnablePaymentClaimCanceled struct {
 	Raw types.Log // Blockchain specific contextual infos
 }
 
-// FilterAutoreleaseDelayed is a free log retrieval operation binding the contract event 0x94306ecb3b8f13e878988b316e670b3a84f5b22fb40a6d534096390fdfd050ff.
+// FilterClaimCanceled is a free log retrieval operation binding the contract event 0x599fe6791b76067426490176d39fb8ef37ca6315dc7228225bfc1c589df0555b.
 //
-// Solidity: e AutoreleaseDelayed()
-func (_BurnablePayment *BurnablePaymentFilterer) FilterAutoreleaseDelayed(opts *bind.FilterOpts) (*BurnablePaymentAutoreleaseDelayedIterator, error) {
+// Solidity: e ClaimCanceled()
+func (_BurnablePayment *BurnablePaymentFilterer) FilterClaimCanceled(opts *bind.FilterOpts) (*BurnablePaymentClaimCanceledIterator, error) {
 
-	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "AutoreleaseDelayed")
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "ClaimCanceled")
 	if err != nil {
 		return nil, err
 	}
-	return &BurnablePaymentAutoreleaseDelayedIterator{contract: _BurnablePayment.contract, event: "AutoreleaseDelayed", logs: logs, sub: sub}, nil
+	return &BurnablePaymentClaimCanceledIterator{contract: _BurnablePayment.contract, event: "ClaimCanceled", logs: logs, sub: sub}, nil
 }
 
-// WatchAutoreleaseDelayed is a free log subscription operation binding the contract event 0x94306ecb3b8f13e878988b316e670b3a84f5b22fb40a6d534096390fdfd050ff.
+// WatchClaimCanceled is a free log subscription operation binding the contract event 0x599fe6791b76067426490176d39fb8ef37ca6315dc7228225bfc1c589df0555b.
 //
-// Solidity: e AutoreleaseDelayed()
-func (_BurnablePayment *BurnablePaymentFilterer) WatchAutoreleaseDelayed(opts *bind.WatchOpts, sink chan<- *BurnablePaymentAutoreleaseDelayed) (event.Subscription, error) {
+// Solidity: e ClaimCanceled()
+func (_BurnablePayment *BurnablePaymentFilterer) WatchClaimCanceled(opts *bind.WatchOpts, sink chan<- *BurnablePaymentClaimCanceled) (event.Subscription, error) {
 
-	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "AutoreleaseDelayed")
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "ClaimCanceled")
 	if err != nil {
 		return nil, err
 	}
@@ -756,8 +777,8 @@ func (_BurnablePayment *BurnablePaymentFilterer) WatchAutoreleaseDelayed(opts *b
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(BurnablePaymentAutoreleaseDelayed)
-				if err := _BurnablePayment.contract.UnpackLog(event, "AutoreleaseDelayed", log); err != nil {
+				event := new(BurnablePaymentClaimCanceled)
+				if err := _BurnablePayment.contract.UnpackLog(event, "ClaimCanceled", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -778,9 +799,9 @@ func (_BurnablePayment *BurnablePaymentFilterer) WatchAutoreleaseDelayed(opts *b
 	}), nil
 }
 
-// BurnablePaymentAutoreleaseTriggeredIterator is returned from FilterAutoreleaseTriggered and is used to iterate over the raw logs and unpacked data for AutoreleaseTriggered events raised by the BurnablePayment contract.
-type BurnablePaymentAutoreleaseTriggeredIterator struct {
-	Event *BurnablePaymentAutoreleaseTriggered // Event containing the contract specifics and raw log
+// BurnablePaymentClaimStartedIterator is returned from FilterClaimStarted and is used to iterate over the raw logs and unpacked data for ClaimStarted events raised by the BurnablePayment contract.
+type BurnablePaymentClaimStartedIterator struct {
+	Event *BurnablePaymentClaimStarted // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -794,7 +815,7 @@ type BurnablePaymentAutoreleaseTriggeredIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *BurnablePaymentAutoreleaseTriggeredIterator) Next() bool {
+func (it *BurnablePaymentClaimStartedIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -803,7 +824,7 @@ func (it *BurnablePaymentAutoreleaseTriggeredIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(BurnablePaymentAutoreleaseTriggered)
+			it.Event = new(BurnablePaymentClaimStarted)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -818,7 +839,7 @@ func (it *BurnablePaymentAutoreleaseTriggeredIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(BurnablePaymentAutoreleaseTriggered)
+		it.Event = new(BurnablePaymentClaimStarted)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -834,40 +855,40 @@ func (it *BurnablePaymentAutoreleaseTriggeredIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *BurnablePaymentAutoreleaseTriggeredIterator) Error() error {
+func (it *BurnablePaymentClaimStartedIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *BurnablePaymentAutoreleaseTriggeredIterator) Close() error {
+func (it *BurnablePaymentClaimStartedIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// BurnablePaymentAutoreleaseTriggered represents a AutoreleaseTriggered event raised by the BurnablePayment contract.
-type BurnablePaymentAutoreleaseTriggered struct {
+// BurnablePaymentClaimStarted represents a ClaimStarted event raised by the BurnablePayment contract.
+type BurnablePaymentClaimStarted struct {
 	Raw types.Log // Blockchain specific contextual infos
 }
 
-// FilterAutoreleaseTriggered is a free log retrieval operation binding the contract event 0xac0ca7228365809cfba9bd7a1549620db6e2c9a4176dae1d163edb0ade5d8606.
+// FilterClaimStarted is a free log retrieval operation binding the contract event 0xc2e00d7be4f68ed88532b9273d506a7aae151286bb6babdb81735dfb224b21a6.
 //
-// Solidity: e AutoreleaseTriggered()
-func (_BurnablePayment *BurnablePaymentFilterer) FilterAutoreleaseTriggered(opts *bind.FilterOpts) (*BurnablePaymentAutoreleaseTriggeredIterator, error) {
+// Solidity: e ClaimStarted()
+func (_BurnablePayment *BurnablePaymentFilterer) FilterClaimStarted(opts *bind.FilterOpts) (*BurnablePaymentClaimStartedIterator, error) {
 
-	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "AutoreleaseTriggered")
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "ClaimStarted")
 	if err != nil {
 		return nil, err
 	}
-	return &BurnablePaymentAutoreleaseTriggeredIterator{contract: _BurnablePayment.contract, event: "AutoreleaseTriggered", logs: logs, sub: sub}, nil
+	return &BurnablePaymentClaimStartedIterator{contract: _BurnablePayment.contract, event: "ClaimStarted", logs: logs, sub: sub}, nil
 }
 
-// WatchAutoreleaseTriggered is a free log subscription operation binding the contract event 0xac0ca7228365809cfba9bd7a1549620db6e2c9a4176dae1d163edb0ade5d8606.
+// WatchClaimStarted is a free log subscription operation binding the contract event 0xc2e00d7be4f68ed88532b9273d506a7aae151286bb6babdb81735dfb224b21a6.
 //
-// Solidity: e AutoreleaseTriggered()
-func (_BurnablePayment *BurnablePaymentFilterer) WatchAutoreleaseTriggered(opts *bind.WatchOpts, sink chan<- *BurnablePaymentAutoreleaseTriggered) (event.Subscription, error) {
+// Solidity: e ClaimStarted()
+func (_BurnablePayment *BurnablePaymentFilterer) WatchClaimStarted(opts *bind.WatchOpts, sink chan<- *BurnablePaymentClaimStarted) (event.Subscription, error) {
 
-	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "AutoreleaseTriggered")
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "ClaimStarted")
 	if err != nil {
 		return nil, err
 	}
@@ -877,8 +898,129 @@ func (_BurnablePayment *BurnablePaymentFilterer) WatchAutoreleaseTriggered(opts 
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(BurnablePaymentAutoreleaseTriggered)
-				if err := _BurnablePayment.contract.UnpackLog(event, "AutoreleaseTriggered", log); err != nil {
+				event := new(BurnablePaymentClaimStarted)
+				if err := _BurnablePayment.contract.UnpackLog(event, "ClaimStarted", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// BurnablePaymentClaimTriggeredIterator is returned from FilterClaimTriggered and is used to iterate over the raw logs and unpacked data for ClaimTriggered events raised by the BurnablePayment contract.
+type BurnablePaymentClaimTriggeredIterator struct {
+	Event *BurnablePaymentClaimTriggered // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *BurnablePaymentClaimTriggeredIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(BurnablePaymentClaimTriggered)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(BurnablePaymentClaimTriggered)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *BurnablePaymentClaimTriggeredIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *BurnablePaymentClaimTriggeredIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// BurnablePaymentClaimTriggered represents a ClaimTriggered event raised by the BurnablePayment contract.
+type BurnablePaymentClaimTriggered struct {
+	Raw types.Log // Blockchain specific contextual infos
+}
+
+// FilterClaimTriggered is a free log retrieval operation binding the contract event 0x0d41024acbae97d7b0daeab1487048fcaedc58b0d754949c140f70f880c628e9.
+//
+// Solidity: e ClaimTriggered()
+func (_BurnablePayment *BurnablePaymentFilterer) FilterClaimTriggered(opts *bind.FilterOpts) (*BurnablePaymentClaimTriggeredIterator, error) {
+
+	logs, sub, err := _BurnablePayment.contract.FilterLogs(opts, "ClaimTriggered")
+	if err != nil {
+		return nil, err
+	}
+	return &BurnablePaymentClaimTriggeredIterator{contract: _BurnablePayment.contract, event: "ClaimTriggered", logs: logs, sub: sub}, nil
+}
+
+// WatchClaimTriggered is a free log subscription operation binding the contract event 0x0d41024acbae97d7b0daeab1487048fcaedc58b0d754949c140f70f880c628e9.
+//
+// Solidity: e ClaimTriggered()
+func (_BurnablePayment *BurnablePaymentFilterer) WatchClaimTriggered(opts *bind.WatchOpts, sink chan<- *BurnablePaymentClaimTriggered) (event.Subscription, error) {
+
+	logs, sub, err := _BurnablePayment.contract.WatchLogs(opts, "ClaimTriggered")
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(BurnablePaymentClaimTriggered)
+				if err := _BurnablePayment.contract.UnpackLog(event, "ClaimTriggered", log); err != nil {
 					return err
 				}
 				event.Raw = log
