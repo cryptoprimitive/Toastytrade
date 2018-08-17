@@ -118,7 +118,6 @@ func test(w http.ResponseWriter, r *http.Request) {
 
 			slog.DebugPrint(event.Committer.Hex())
 
-			//get BPcontract address from logs[i].address
 			//pass contract addr, event name, and decoded event off to be massaged into an email notification
 		}
 	}
