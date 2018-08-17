@@ -16,7 +16,7 @@
 	{
 		"constant": false,
 		"inputs": [],
-		"name": "delayAutorelease",
+		"name": "cancelClaim",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -124,15 +124,6 @@
 			}
 		],
 		"name": "logPayerStatement",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "triggerAutorelease",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -264,6 +255,24 @@
 		],
 		"payable": false,
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "startClaim",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "triggerClaim",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -448,6 +457,24 @@
 	{
 		"anonymous": false,
 		"inputs": [],
+		"name": "ClaimStarted",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [],
+		"name": "ClaimCanceled",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [],
+		"name": "ClaimTriggered",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [],
 		"name": "Closed",
 		"type": "event"
 	},
@@ -455,18 +482,6 @@
 		"anonymous": false,
 		"inputs": [],
 		"name": "Unclosed",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [],
-		"name": "AutoreleaseDelayed",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [],
-		"name": "AutoreleaseTriggered",
 		"type": "event"
 	}
 ]
