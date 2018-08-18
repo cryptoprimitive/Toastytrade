@@ -86,6 +86,7 @@ func test(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Running test func"))
 
 	cli, err := ethclient.Dial("wss://ropsten.infura.io/ws")
+	defer cli.Close()
 
 	if err != nil {
 		log.Panic("Didn't work: ", err)
@@ -118,13 +119,11 @@ func test(w http.ResponseWriter, r *http.Request) {
 
 			slog.DebugPrint(event.Committer.Hex())
 
-			//pass contract addr, event name, and decoded event off to be massaged into an email notification
+			//pass contract addr, event name, and decoded event off to be massaged into an email notification and sent out
 		}
 	}
 
 	//slog.DebugPrint(logs[0].Topics[0].Hex())
-
-	cli.Close()
 
 	w.Write([]byte("Test func finished"))
 }
