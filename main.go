@@ -119,7 +119,7 @@ func test(w http.ResponseWriter, r *http.Request) {
 
 			slog.DebugPrint(event.Committer.Hex())
 
-			//pass contract addr, event name, and decoded event off to be massaged into an email notification and sent out
+			//pass contract addr and decoded event off to be massaged into an email notification and sent out
 		}
 	}
 
