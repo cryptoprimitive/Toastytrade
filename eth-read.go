@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"github.com/SomniaStellarum/StellarUtilities/slog"
+	//"github.com/SomniaStellarum/StellarUtilities/slog"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -135,7 +135,7 @@ func ethReadLoop(fromBlock uint64) {
 				event := new(BurnablePaymentCreated)
 				toastytradeContracts[addr].BurnablePaymentFilterer.contract.UnpackLog(event, "Created", log)
 
-				payerAddress := event.Creator // The ToastytradeFactory only creates BPs where the creator is the payer
+				//payerAddress := event.Creator // The ToastytradeFactory only creates BPs where the creator is the payer
 
 			}
 		}

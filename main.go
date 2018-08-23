@@ -1,15 +1,10 @@
 package main
 
 import (
-	"context"
 	"github.com/SomniaStellarum/StellarUtilities/slog"
-	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/ethclient"
 	"html/template"
 	"log"
-	"math/big"
 	"net/http"
 )
 
@@ -103,6 +98,7 @@ func main() {
 	slog.SetDebug()
 
 	initEthStuff()
+	makeDBChans()
 	//ethReadLoop(3886180)
 
 	http.HandleFunc("/", index)
