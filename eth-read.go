@@ -86,8 +86,6 @@ func ethReadLoop(fromBlock uint64) {
       log.Panic("error filtering for factory events", err)
     }
 
-    slog.DebugPrint(len(logs),"logs")
-
     var newToastytradeAddresses []common.Address
     latestBlock := fromBlock
 
@@ -96,7 +94,6 @@ func ethReadLoop(fromBlock uint64) {
       toastytradeFactory.ToastytradeFactoryFilterer.contract.UnpackLog(event, "ToastytradeCreated", log)
 
       newToastytradeAddresses = append(newToastytradeAddresses, event.ToastytradeAddress)
-      slog.DebugPrint("new TT address:", string(event.ToastytradeAddress.Hex()))
 
       if log.BlockNumber > latestBlock {
         latestBlock = log.BlockNumber
@@ -119,7 +116,6 @@ func ethReadLoop(fromBlock uint64) {
       }
 
       toastytradeContracts[addr] = contract
-      slog.DebugPrint("creating TT contract")
     }
 
     //now deal with each new event from each toastytrade
@@ -132,18 +128,16 @@ func ethReadLoop(fromBlock uint64) {
 
     for _, log := range(logs) {
       addr := log.Address
-      slog.DebugPrint("event sig:",string(log.Topics[0].Hex()))
 
       switch log.Topics[0] {
   		case CreatedTopic:
-        slog.DebugPrint("Found created event")
-
   			//decode event
   			event := new(BurnablePaymentCreated)
   			toastytradeContracts[addr].BurnablePaymentFilterer.contract.UnpackLog(event, "Created", log)
 
-  			slog.DebugPrint("creator", string(event.Creator.Hex()))
-  			//pass contract addr and decoded event off to be massaged into an email notification and sent out
+  			payerAddress := event.Creator // The ToastytradeFactory only creates BPs where the creator is the payer
+        
+
   		}
     }
   }
