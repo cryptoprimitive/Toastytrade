@@ -143,6 +143,10 @@ func logRequest(f http.Handler) http.Handler {
 
 func main() {
 	slog.SetDebug()
+
+	initEthStuff()
+	//ethReadLoop(3886180)
+
 	http.HandleFunc("/", index)
 	http.HandleFunc("/register", register)
 	http.HandleFunc("/doRegister", doRegister)

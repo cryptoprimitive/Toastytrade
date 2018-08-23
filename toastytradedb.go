@@ -15,7 +15,7 @@ import (
 //  seller -> address
 //  buyer -> address
 
-var offerdb *leveldb.DB
+var ttdb *leveldb.DB
 
 func init() {
 	pwd, err := os.Getwd()
@@ -23,13 +23,13 @@ func init() {
 		log.Panic("Error finding working directory", err)
 	}
 
-	offerdb, err = leveldb.OpenFile(pwd + "/offerdb", nil)
+	ttdb, err = leveldb.OpenFile(pwd + "/ttdb", nil)
 	if err != nil {
 		log.Panic("Error opening offer database", err)
 	}
 }
 
-type offerDBEntry struct {
+type toastytradeEntry struct {
 	Seller common.Address `json:"seller"`
 	Buyer common.Address `json:"buyer"`
 }
@@ -40,23 +40,33 @@ func RegisterAndPopulateToastytrade(addr common.Address) (err error) {
 	return nil
 }
 
-func GetOffer(OfferAddress common.Address) (offerEntry *offerDBEntry, err error) {
-	v, err := offerdb.Get(OfferAddress.Bytes(), nil)
-	if err != nil {
-		return nil, err
+func GetToastytradeAddresses() (addresses []common.Address, err error) {
+	iter := ttdb.NewIterator(nil, nil)
+
+	for iter.Next() {
+		addresses = append(addresses, common.BytesToAddress(iter.Value()))
 	}
-	err = json.Unmarshal(v, offerEntry)
-	if err != nil {
-		return nil, err
-	}
-	return offerEntry, err
+
+	return addresses, nil
 }
 
-func PutOffer(OfferAddress common.Address, offerEntry *offerDBEntry) (err error) {
-	v, err := json.Marshal(offerEntry)
+func GetToastytrade(ToastytradeAddress common.Address) (entry *toastytradeEntry, err error) {
+	v, err := ttdb.Get(ToastytradeAddress.Bytes(), nil)
+	if err != nil {
+		return nil, err
+	}
+	err = json.Unmarshal(v, entry)
+	if err != nil {
+		return nil, err
+	}
+	return entry, err
+}
+
+func PutToastytrade(ToastytradeAddress common.Address, entry *toastytradeEntry) (err error) {
+	v, err := json.Marshal(entry)
 	if err != nil {
 		return err
 	}
-	err = offerdb.Put(OfferAddress.Bytes(), v, nil)
+	err = ttdb.Put(ToastytradeAddress.Bytes(), v, nil)
 	return err
 }
