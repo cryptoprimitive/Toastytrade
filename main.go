@@ -83,48 +83,6 @@ func getUserEmail(w http.ResponseWriter, r *http.Request) {
 }
 
 func test(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Running test func"))
-
-	cli, err := ethclient.Dial("wss://ropsten.infura.io/ws")
-	defer cli.Close()
-
-	if err != nil {
-		log.Panic("Didn't work: ", err)
-	}
-
-	ctx := context.Background()
-
-	fq := ethereum.FilterQuery {}
-	fq.FromBlock = big.NewInt(3810620)
-	fq.Addresses = []common.Address{common.HexToAddress("0x69FC16ee0b64c53FAfE516b458CC42D2e19Af566")}
-
-	logs, err := cli.FilterLogs(ctx, fq)
-
-	if err != nil {
-		log.Panic("Error fetching logs: ", err)
-	}
-
-	for i := 0; i < len(logs); i++ {
-		if logs[i].Topics[0] == crypto.Keccak256Hash([]byte("Committed(address)")) {
-
-			//create new contract
-			bp, err := NewBurnablePayment(logs[i].Address, cli)
-			if err != nil {
-				log.Panic("NewBurnablePayment error: ", err)
-			}
-
-			//decode event
-			event := new(BurnablePaymentCommitted)
-			bp.BurnablePaymentFilterer.contract.UnpackLog(event, "Committed", logs[i])
-
-			slog.DebugPrint(event.Committer.Hex())
-
-			//pass contract addr and decoded event off to be massaged into an email notification and sent out
-		}
-	}
-
-	//slog.DebugPrint(logs[0].Topics[0].Hex())
-
 	w.Write([]byte("Test func finished"))
 }
 
