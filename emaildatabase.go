@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/syndtr/goleveldb/leveldb"
-	"os"
-	"log"
-	"github.com/ethereum/go-ethereum/common"
 	"encoding/json"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/syndtr/goleveldb/leveldb"
+	"log"
+	"os"
 )
 
 var db *leveldb.DB
@@ -16,7 +16,7 @@ func init() {
 		log.Panic("Error finding working directory", err)
 	}
 
-	db, err = leveldb.OpenFile(pwd + "/emaildb", nil)
+	db, err = leveldb.OpenFile(pwd+"/emaildb", nil)
 	if err != nil {
 		log.Panic("Error opening email database", err)
 	}

@@ -1,16 +1,16 @@
 package main
 
 import (
-	"math/big"
 	"context"
+	"github.com/SomniaStellarum/StellarUtilities/slog"
+	"github.com/ethereum/go-ethereum"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/ethereum/go-ethereum/ethclient"
 	"html/template"
 	"log"
+	"math/big"
 	"net/http"
-	"github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/SomniaStellarum/StellarUtilities/slog"
 )
 
 var tpl *template.Template
@@ -112,7 +112,7 @@ func main() {
 	http.HandleFunc("/registerTrade", registerTrade)
 	http.HandleFunc("/doRegisterTrade", doRegisterTrade)
 	http.HandleFunc("/test", test)
-	http.Handle("/css/", slog.DebugPrintURL(http.StripPrefix("/css" ,http.FileServer(http.Dir("./css")))))
-	http.Handle("/js/", slog.DebugPrintURL(http.StripPrefix("/js" ,http.FileServer(http.Dir("./js")))))
+	http.Handle("/css/", slog.DebugPrintURL(http.StripPrefix("/css", http.FileServer(http.Dir("./css")))))
+	http.Handle("/js/", slog.DebugPrintURL(http.StripPrefix("/js", http.FileServer(http.Dir("./js")))))
 	http.ListenAndServe(":8080", nil)
 }

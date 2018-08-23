@@ -1,12 +1,12 @@
 package main
 
 import (
+	"encoding/json"
+	"github.com/SomniaStellarum/StellarUtilities/slog"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/syndtr/goleveldb/leveldb"
-	"os"
 	"log"
-	"github.com/SomniaStellarum/StellarUtilities/slog"
-	"encoding/json"
+	"os"
 )
 
 // to store
@@ -23,7 +23,7 @@ func init() {
 		log.Panic("Error finding working directory", err)
 	}
 
-	ttdb, err = leveldb.OpenFile(pwd + "/ttdb", nil)
+	ttdb, err = leveldb.OpenFile(pwd+"/ttdb", nil)
 	if err != nil {
 		log.Panic("Error opening offer database", err)
 	}
@@ -31,7 +31,7 @@ func init() {
 
 type toastytradeEntry struct {
 	Seller common.Address `json:"seller"`
-	Buyer common.Address `json:"buyer"`
+	Buyer  common.Address `json:"buyer"`
 }
 
 func RegisterAndPopulateToastytrade(addr common.Address) (err error) {
