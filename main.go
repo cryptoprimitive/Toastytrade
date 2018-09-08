@@ -36,32 +36,7 @@ func doRegister(w http.ResponseWriter, r *http.Request) {
 	ethAddress := common.HexToAddress(r.PostFormValue("ethAddress"))
 	email := r.PostFormValue("email")
 
-	err := PutEmail(ethAddress, email)
-	if err != nil {
-		log.Panic("Error calling PutEmail: ", err)
-	}
-}
-
-func registerTrade(w http.ResponseWriter, r *http.Request) {
-	slog.DebugPrint("registerTrade called")
-
-	err := tpl.ExecuteTemplate(w, "registerTrade.html", nil)
-	if err != nil {
-		log.Panic("Template error on registerTrade")
-	}
-}
-
-func doRegisterTrade(w http.ResponseWriter, r *http.Request) {
-	slog.DebugPrint("doRegisterTrade called")
-
-	toastytradeAddress := common.HexToAddress(r.PostFormValue("toastytradeAddress"))
-
-	err := RegisterAndPopulateToastytrade(toastytradeAddress)
-	if err != nil {
-		log.Panic("Error calling RegisterAndPopulateToastytrade", err)
-	}
-
-	slog.DebugPrint("Toastytrade registered")
+	putEmailReqChan <- &putEmailRequest{ethAddress, email}
 }
 
 func getUserEmail(w http.ResponseWriter, r *http.Request) {
@@ -69,10 +44,12 @@ func getUserEmail(w http.ResponseWriter, r *http.Request) {
 
 	ethAddress := common.HexToAddress(r.PostFormValue("ethAddress"))
 
-	email, err := GetEmail(ethAddress)
-	if err != nil {
-		log.Panic("Error calling GetEmail: ", err)
+	getEmailReqChan <- ethAddress
+	result := <-getEmailResChan
+	if result.err != nil {
+		log.Panic(result.err)
 	}
+	email := result.email
 
 	w.Write([]byte(email))
 }
@@ -98,15 +75,13 @@ func main() {
 	slog.SetDebug()
 
 	initEthStuff()
-	makeDBChans()
-	//ethReadLoop(3886180)
+	go dbRequestsHandler()
+	ethReadLoop(3886180)
 
 	http.HandleFunc("/", index)
 	http.HandleFunc("/register", register)
 	http.HandleFunc("/doRegister", doRegister)
 	http.HandleFunc("/getUserEmail", getUserEmail)
-	http.HandleFunc("/registerTrade", registerTrade)
-	http.HandleFunc("/doRegisterTrade", doRegisterTrade)
 	http.HandleFunc("/test", test)
 	http.Handle("/css/", slog.DebugPrintURL(http.StripPrefix("/css", http.FileServer(http.Dir("./css")))))
 	http.Handle("/js/", slog.DebugPrintURL(http.StripPrefix("/js", http.FileServer(http.Dir("./js")))))
