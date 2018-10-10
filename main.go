@@ -47,7 +47,9 @@ func getUserEmail(w http.ResponseWriter, r *http.Request) {
 	getEmailReqChan <- ethAddress
 	result := <-getEmailResChan
 	if result.err != nil {
-		log.Panic(result.err)
+		// Crude, but return empty string to represent no email found
+		w.Write([]byte(""))
+		return
 	}
 	email := result.email
 
@@ -76,7 +78,7 @@ func main() {
 
 	initEthStuff()
 	go dbRequestsHandler()
-	ethReadLoop(3886180)
+	go ethReadLoop(4200000)
 
 	http.HandleFunc("/", index)
 	http.HandleFunc("/register", register)

@@ -77,6 +77,7 @@ func ethReadLoop(fromBlock uint64) {
 	var queryStartBlock, queryEndBlock big.Int
 
 	for {
+		slog.DebugPrint("loopin")
 		//Set the beginning of the queried range to the block just after the last block scanned
 		queryStartBlock.Add(lastBlockScanned, big.NewInt(1))
 
@@ -92,9 +93,12 @@ func ethReadLoop(fromBlock uint64) {
 
 		if queryStartBlock.Cmp(&queryEndBlock) == 1 { // If queryStartBlock > queryEndBlock
 			//Indicates there has been no new block since last loop. Sleep a bit and continue.
+			slog.DebugPrint("No new blocks, sleepin")
 			time.Sleep(time.Minute)
 			continue
 		}
+
+		slog.DebugPrint("Scanning block range: ", queryStartBlock, queryEndBlock)
 
 		var query ethereum.FilterQuery
 		query.FromBlock = &queryStartBlock
@@ -119,6 +123,7 @@ func ethReadLoop(fromBlock uint64) {
 
 			newToastytradeAddresses = append(newToastytradeAddresses, event.ToastytradeAddress)
 		}
+		slog.DebugPrint("TTs from Factory: ", len(newToastytradeAddresses))
 
 		//Additionally fetch all already-cached BP addresses from DB
 
@@ -128,6 +133,8 @@ func ethReadLoop(fromBlock uint64) {
 			log.Panic(result.err)
 		}
 		ttAddressesFromDB := result.addresses
+
+		slog.DebugPrint("TTs from DB: ", len(ttAddressesFromDB))
 
 		//Concacenate the DB's adddresses and those from the newly-created BPs.
 		toastytradeAddresses := append(ttAddressesFromDB, newToastytradeAddresses...)
@@ -148,7 +155,7 @@ func ethReadLoop(fromBlock uint64) {
 
 		logs, err = cli.FilterLogs(ctx, query)
 		if err != nil {
-			log.Panic("error filtering for toastytrade events", err)
+			log.Panic("error filtering for toastytrade events: ", err)
 		}
 
 		for _, thisLog := range logs {
@@ -180,6 +187,22 @@ func ethReadLoop(fromBlock uint64) {
 
 				createdUpdateChan <- createdUpdate
 
+				err = notifyParties(addr, event)
+				if err != nil {
+					log.Panic(err)
+				}
+
+			case FundsRecoveredTopic:
+				slog.DebugPrint("FundsRecovered topic found")
+
+				event := new(BurnablePaymentFundsRecovered)
+				toastytradeContracts[addr].BurnablePaymentFilterer.contract.UnpackLog(event, "FundsRecovered", thisLog)
+
+				fundsRecoveredUpdate := new(noArgUpdate)
+				fundsRecoveredUpdate.ttAddr = addr
+
+				fundsRecoveredUpdateChan <- fundsRecoveredUpdate
+
 				err := notifyParties(addr, event)
 				if err != nil {
 					log.Panic(err)
@@ -193,7 +216,7 @@ func ethReadLoop(fromBlock uint64) {
 
 				committedUpdate := new(committedUpdate)
 				committedUpdate.ttAddr = addr
-				committedUpdate.buyerAddr = addr
+				committedUpdate.buyerAddr = event.Committer
 
 				committedUpdateChan <- committedUpdate
 
@@ -201,10 +224,111 @@ func ethReadLoop(fromBlock uint64) {
 				if err != nil {
 					log.Panic(err)
 				}
+
+			case FundsBurnedTopic:
+				slog.DebugPrint("FundsBurned event found")
+
+				event := new(BurnablePaymentFundsBurned)
+				toastytradeContracts[addr].BurnablePaymentFilterer.contract.UnpackLog(event, "FundsBurned", thisLog)
+
+				fundsBurnedUpdate := new(fundsBurnedUpdate)
+				fundsBurnedUpdate.ttAddr = addr
+				fundsBurnedUpdate.amount = *event.Amount
+
+				fundsBurnedUpdateChan <- fundsBurnedUpdate
+
+				err := notifyParties(addr, event)
+				if err != nil {
+					log.Panic(err)
+				}
+
+			case FundsReleasedTopic:
+				slog.DebugPrint("FundsReleased event found")
+
+				event := new(BurnablePaymentFundsReleased)
+				toastytradeContracts[addr].BurnablePaymentFilterer.contract.UnpackLog(event, "FundsReleased", thisLog)
+
+				fundsReleasedUpdate := new(fundsReleasedUpdate)
+				fundsReleasedUpdate.ttAddr = addr
+				fundsReleasedUpdate.amount = *event.Amount
+
+				fundsReleasedUpdateChan <- fundsReleasedUpdate
+
+				err := notifyParties(addr, event)
+				if err != nil {
+					log.Panic(err)
+				}
+
+			case ClaimStartedTopic:
+				slog.DebugPrint("ClaimStarted event found")
+
+				event := new(BurnablePaymentClaimStarted)
+				toastytradeContracts[addr].BurnablePaymentFilterer.contract.UnpackLog(event, "ClaimStarted", thisLog)
+
+				claimStartedUpdate := new(noArgUpdate)
+				claimStartedUpdate.ttAddr = addr
+
+				claimStartedUpdateChan <- claimStartedUpdate
+
+				err := notifyParties(addr, event)
+				if err != nil {
+					log.Panic(err)
+				}
+
+			case ClaimCanceledTopic:
+				slog.DebugPrint("ClaimCanceled event found")
+
+				event := new(BurnablePaymentClaimCanceled)
+				toastytradeContracts[addr].BurnablePaymentFilterer.contract.UnpackLog(event, "ClaimCanceled", thisLog)
+
+				claimCanceledUpdate := new(noArgUpdate)
+				claimCanceledUpdate.ttAddr = addr
+
+				claimCanceledUpdateChan <- claimCanceledUpdate
+
+				err := notifyParties(addr, event)
+				if err != nil {
+					log.Panic(err)
+				}
+
+			case ClaimTriggeredTopic:
+				slog.DebugPrint("ClaimTriggered event found")
+
+				event := new(BurnablePaymentClaimTriggered)
+				toastytradeContracts[addr].BurnablePaymentFilterer.contract.UnpackLog(event, "ClaimTriggered", thisLog)
+
+				claimTriggeredUpdate := new(noArgUpdate)
+				claimTriggeredUpdate.ttAddr = addr
+
+				claimTriggeredUpdateChan <- claimTriggeredUpdate
+
+				err := notifyParties(addr, event)
+				if err != nil {
+					log.Panic(err)
+				}
+
+			case ClosedTopic:
+				slog.DebugPrint("Closed event found")
+
+				event := new(BurnablePaymentClosed)
+				toastytradeContracts[addr].BurnablePaymentFilterer.contract.UnpackLog(event, "Closed", thisLog)
+
+				closedUpdate := new(noArgUpdate)
+				closedUpdate.ttAddr = addr
+
+				closedUpdateChan <- closedUpdate
+
+				err := notifyParties(addr, event)
+				if err != nil {
+					log.Panic(err)
+				}
+
 			}
 		}
 
 		lastBlockScanned.Set(&queryEndBlock)
+
+		slog.DebugPrint("sleepin")
 
 		time.Sleep(time.Minute)
 	}

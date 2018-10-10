@@ -17,7 +17,13 @@ window.addEventListener('load', function() {
   else {
     accountInfoPanelVueapp.ethereumAddress = web3.eth.accounts[0];
     $.post("/getUserEmail", {ethAddress: web3.eth.accounts[0]}, function(data) {
-      window.accountInfoPanelVueapp.email = data;
+      if (data != "") {
+        window.accountInfoPanelVueapp.email = data;
+      }
+      else {
+        //empty string return indicates no email was found.
+        window.accountInfoPanelVueapp.email = "No email found!";
+      }
     });
   }
 });
