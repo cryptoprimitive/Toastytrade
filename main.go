@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/SomniaStellarum/StellarUtilities/slog"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/ethereum/go-ethereum/ethclient"
 	"html/template"
 	"log"
 	"net/http"
@@ -76,9 +78,13 @@ func logRequest(f http.Handler) http.Handler {
 func main() {
 	slog.SetDebug()
 
-	initEthStuff()
+	err := initEthStuff()
+	if err != nil {
+		log.Panic(err)
+	}
+
 	go dbRequestsHandler()
-	go ethReadLoop(4200000)
+	go mainLoop(4200000)
 
 	http.HandleFunc("/", index)
 	http.HandleFunc("/register", register)
@@ -88,4 +94,36 @@ func main() {
 	http.Handle("/css/", slog.DebugPrintURL(http.StripPrefix("/css", http.FileServer(http.Dir("./css")))))
 	http.Handle("/js/", slog.DebugPrintURL(http.StripPrefix("/js", http.FileServer(http.Dir("./js")))))
 	http.ListenAndServe(":8080", nil)
+}
+
+func initEthStuff() error {
+	CreatedTopic = crypto.Keccak256Hash([]byte("Created(address,bool,address,uint256,uint256,string)"))
+	FundsAddedTopic = crypto.Keccak256Hash([]byte("FundsAdded(address,uint256)"))
+	PayerStatementTopic = crypto.Keccak256Hash([]byte("PayerStatement(string)"))
+	WorkerStatementTopic = crypto.Keccak256Hash([]byte("WorkerStatement(string)"))
+	FundsRecoveredTopic = crypto.Keccak256Hash([]byte("FundsRecovered()"))
+	CommittedTopic = crypto.Keccak256Hash([]byte("Committed(address)"))
+	FundsBurnedTopic = crypto.Keccak256Hash([]byte("FundsBurned(uint256)"))
+	FundsReleasedTopic = crypto.Keccak256Hash([]byte("FundsReleased(uint256)"))
+	ClaimStartedTopic = crypto.Keccak256Hash([]byte("ClaimStarted()"))
+	ClaimCanceledTopic = crypto.Keccak256Hash([]byte("ClaimCanceled()"))
+	ClaimTriggeredTopic = crypto.Keccak256Hash([]byte("ClaimTriggered()"))
+	ClosedTopic = crypto.Keccak256Hash([]byte("Closed()"))
+	UnclosedTopic = crypto.Keccak256Hash([]byte("Unclosed()"))
+
+	factoryAddress = common.HexToAddress(ROPSTEN_FACTORY_ADDRESS)
+
+	var err error
+
+	cli, err = ethclient.Dial("wss://ropsten.infura.io/ws")
+	if err != nil {
+		return err
+	}
+
+	toastytradeFactory, err = NewToastytradeFactory(common.HexToAddress(ROPSTEN_FACTORY_ADDRESS), cli)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
