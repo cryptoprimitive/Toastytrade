@@ -245,7 +245,7 @@ func getToastytradeAddresses() (addresses []common.Address, err error) {
 	iter := ttdb.NewIterator(nil, nil)
 
 	for iter.Next() {
-		addresses = append(addresses, common.BytesToAddress(iter.Value()))
+		addresses = append(addresses, common.BytesToAddress(iter.Key()))
 	}
 
 	return addresses, nil

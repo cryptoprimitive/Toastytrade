@@ -79,6 +79,7 @@ func ethReadLoop(fromBlock uint64) {
 	for {
 		slog.DebugPrint("loopin")
 		//Set the beginning of the queried range to the block just after the last block scanned
+		//queryStartBlock = lastBlockScanned + 1
 		queryStartBlock.Add(lastBlockScanned, big.NewInt(1))
 
 		//Get latest block
@@ -100,17 +101,17 @@ func ethReadLoop(fromBlock uint64) {
 
 		slog.DebugPrint("Scanning block range: ", queryStartBlock, queryEndBlock)
 
-		var query ethereum.FilterQuery
-		query.FromBlock = &queryStartBlock
-		query.ToBlock = &queryEndBlock
+		var factoryQuery ethereum.FilterQuery
+		factoryQuery.FromBlock = &queryStartBlock
+		factoryQuery.ToBlock = &queryEndBlock
 
 		//This range will be used for both filter calls that follow in this loop.
 
 		//Get all events ToastytradeCreated events from Factory contract, and extract address of new BPs
 
-		query.Addresses = []common.Address{factoryAddress}
+		factoryQuery.Addresses = []common.Address{factoryAddress}
 
-		logs, err := cli.FilterLogs(ctx, query)
+		logs, err := cli.FilterLogs(ctx, factoryQuery)
 		if err != nil {
 			log.Panic("error filtering for factory events", err)
 		}
@@ -151,9 +152,12 @@ func ethReadLoop(fromBlock uint64) {
 		}
 
 		//now deal with each new event from each toastytrade
-		query.Addresses = toastytradeAddresses
+		var ttQuery ethereum.FilterQuery
+		ttQuery.Addresses = toastytradeAddresses
+		ttQuery.FromBlock = &queryStartBlock
+		ttQuery.ToBlock = &queryEndBlock
 
-		logs, err = cli.FilterLogs(ctx, query)
+		logs, err = cli.FilterLogs(ctx, ttQuery)
 		if err != nil {
 			log.Panic("error filtering for toastytrade events: ", err)
 		}
