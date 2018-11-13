@@ -12,7 +12,7 @@ import (
 
 var (
 	ttdb    *leveldb.DB
-	emaildb *leveldb.DB
+	accountsdb *leveldb.DB
 )
 
 var (
@@ -26,14 +26,14 @@ var (
 	claimTriggeredUpdateChan chan *noArgUpdate
 	closedUpdateChan         chan *noArgUpdate
 
-	putEmailReqChan chan *putEmailRequest
+	putAccountReqChan chan *putAccountRequest
 
 	getAllToastytradeAddressesReqChan chan bool
 	getAllToastytradeAddressesResChan chan getAllToastytradeAddressesResult
 	getToastytradeReqChan             chan common.Address
 	getToastytradeResChan             chan getToastytradeResult
-	getEmailReqChan                   chan common.Address
-	getEmailResChan                   chan getEmailResult
+	getAccountReqChan                   chan common.Address
+	getAccountResChan                   chan getAccountResult
 )
 
 func init() {
@@ -47,7 +47,7 @@ func init() {
 		log.Panic("Error opening toastytrade database: ", err)
 	}
 
-	emaildb, err = leveldb.OpenFile(pwd+"/emaildb", nil)
+	accountsdb, err = leveldb.OpenFile(pwd+"/accountsdb", nil)
 	if err != nil {
 		log.Panic("Error opening email database: ", err)
 	}
@@ -62,14 +62,14 @@ func init() {
 	claimTriggeredUpdateChan = make(chan *noArgUpdate)
 	closedUpdateChan = make(chan *noArgUpdate)
 
-	putEmailReqChan = make(chan *putEmailRequest)
+	putAccountReqChan = make(chan *putAccountRequest)
 
 	getAllToastytradeAddressesReqChan = make(chan bool)
 	getAllToastytradeAddressesResChan = make(chan getAllToastytradeAddressesResult)
 	getToastytradeReqChan = make(chan common.Address)
 	getToastytradeResChan = make(chan getToastytradeResult)
-	getEmailReqChan = make(chan common.Address)
-	getEmailResChan = make(chan getEmailResult)
+	getAccountReqChan = make(chan common.Address)
+	getAccountResChan = make(chan getAccountResult)
 }
 
 type createdUpdate struct {
@@ -96,9 +96,14 @@ type noArgUpdate struct {
 	ttAddr common.Address
 }
 
-type putEmailRequest struct {
+type putAccountRequest struct {
 	ethAddr common.Address
-	email   string
+	entry *AccountEntry
+}
+
+type getAccountResult struct {
+	entry *AccountEntry
+	err error
 }
 
 type getAllToastytradeAddressesResult struct {
@@ -108,11 +113,6 @@ type getAllToastytradeAddressesResult struct {
 
 type getToastytradeResult struct {
 	entry *toastytradeEntry
-	err   error
-}
-
-type getEmailResult struct {
-	email string
 	err   error
 }
 
@@ -140,8 +140,8 @@ type toastytradeEntry struct {
 func dbRequestsHandler() {
 	for {
 		select {
-		case r := <-putEmailReqChan:
-			putEmail(r.ethAddr, r.email)
+		case r := <-putAccountReqChan:
+			putAccount(r.ethAddr, r.entry)
 
 		case u := <-createdUpdateChan:
 			err := putToastytrade(u.ttAddr, u.entry)
@@ -234,9 +234,9 @@ func dbRequestsHandler() {
 			r, err := getToastytrade(addr)
 			getToastytradeResChan <- getToastytradeResult{r, err}
 
-		case addr := <-getEmailReqChan:
-			r, err := getEmail(addr)
-			getEmailResChan <- getEmailResult{r, err}
+		case addr := <-getAccountReqChan:
+			r, err := getAccount(addr)
+			getAccountResChan <- getAccountResult{r, err}
 		}
 	}
 }
@@ -278,30 +278,29 @@ func putToastytrade(toastytradeAddress common.Address, entry *toastytradeEntry) 
 	return err
 }
 
-type emailDBEntry struct {
+type AccountEntry struct {
 	Email string `json:"email"`
+	WarningIntervalMinutes int `json:"warninginterval"`
 }
 
-func getEmail(addr common.Address) (email string, err error) {
-	v, err := emaildb.Get(addr.Bytes(), nil)
+func getAccount(addr common.Address) (account *AccountEntry, err error) {
+	v, err := accountsdb.Get(addr.Bytes(), nil)
 	if err != nil {
-		return "", err
+		return &AccountEntry{}, err
 	}
-	e := new(emailDBEntry)
-	err = json.Unmarshal(v, e)
+	account = new(AccountEntry)
+	err = json.Unmarshal(v, account)
 	if err != nil {
-		return "", err
+		return account, err
 	}
-	return e.Email, nil
+	return account, nil
 }
 
-func putEmail(addr common.Address, email string) (err error) {
-	e := new(emailDBEntry)
-	e.Email = email
-	v, err := json.Marshal(e)
+func putAccount(addr common.Address, entry *AccountEntry) (err error) {
+	v, err := json.Marshal(entry)
 	if err != nil {
 		return err
 	}
-	err = emaildb.Put(addr.Bytes(), v, nil)
+	err = accountsdb.Put(addr.Bytes(), v, nil)
 	return err
 }

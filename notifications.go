@@ -21,28 +21,28 @@ func notifyParties(toastytradeAddress common.Address, event eventDescriber) erro
 	}
 	entry := entryResult.entry
 
-	getEmailReqChan <- entry.Seller
-	emailResult := <-getEmailResChan
+	getAccountReqChan <- entry.Seller
+	accountResult := <-getAccountResChan
 
 	subject := fmt.Sprintf("Action for Toastytrade %s", toastytradeAddress.Hex())
 
-	if emailResult.err == nil {
-		sendEmail(emailResult.email, subject, event.describeToSeller(toastytradeAddress))
-	} else if emailResult.err == leveldb.ErrNotFound {
+	if accountResult.err == nil {
+		sendEmail(accountResult.entry.Email, subject, event.describeToSeller(toastytradeAddress))
+	} else if accountResult.err == leveldb.ErrNotFound {
 		//no email was found, so do nothing
 	} else {
-		log.Panic(emailResult.err)
+		log.Panic(accountResult.err)
 	}
 
 	if entry.Buyer != common.HexToAddress("0x0") {
-		getEmailReqChan <- entry.Buyer
-		emailResult := <-getEmailResChan
-		if emailResult.err == nil {
-			sendEmail(emailResult.email, subject, event.describeToBuyer(toastytradeAddress))
-		} else if emailResult.err == leveldb.ErrNotFound {
+		getAccountReqChan <- entry.Buyer
+		accountResult := <-getAccountResChan
+		if accountResult.err == nil {
+			sendEmail(accountResult.entry.Email, subject, event.describeToBuyer(toastytradeAddress))
+		} else if accountResult.err == leveldb.ErrNotFound {
 			//no email was found, so do nothing
 		} else {
-			log.Panic(emailResult.err)
+			log.Panic(accountResult.err)
 		}
 	}
 

@@ -36,7 +36,7 @@ func doRegister(w http.ResponseWriter, r *http.Request) {
 	ethAddress := common.HexToAddress(r.PostFormValue("ethAddress"))
 	email := r.PostFormValue("email")
 
-	putEmailReqChan <- &putEmailRequest{ethAddress, email}
+	putAccountReqChan <- &putAccountRequest{ethAddress, &AccountEntry{email, 1}}
 }
 
 func getUserEmail(w http.ResponseWriter, r *http.Request) {
@@ -44,14 +44,14 @@ func getUserEmail(w http.ResponseWriter, r *http.Request) {
 
 	ethAddress := common.HexToAddress(r.PostFormValue("ethAddress"))
 
-	getEmailReqChan <- ethAddress
-	result := <-getEmailResChan
+	getAccountReqChan <- ethAddress
+	result := <-getAccountResChan
 	if result.err != nil {
 		// Crude, but return empty string to represent no email found
 		w.Write([]byte(""))
 		return
 	}
-	email := result.email
+	email := result.entry.Email
 
 	w.Write([]byte(email))
 }
