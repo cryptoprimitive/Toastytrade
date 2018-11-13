@@ -135,6 +135,9 @@ type toastytradeEntry struct {
 	OtherDeposits   []string `json:"otherDeposits"`
 	DepositInterval big.Int  `json:"depositInterval"`
 	DepositDeadline big.Int  `json:"depositDeadline"`
+
+	AutoreleaseWarningSent bool `json:"autoreleasewarningsent"`
+	AutoreleaseAvailableSent bool `json:"autoreleaseavailablesent"`
 }
 
 func dbRequestsHandler() {
@@ -144,6 +147,9 @@ func dbRequestsHandler() {
 			putAccount(r.ethAddr, r.entry)
 
 		case u := <-createdUpdateChan:
+			u.entry.AutoreleaseWarningSent = false
+			u.entry.AutoreleaseAvailableSent = false
+
 			err := putToastytrade(u.ttAddr, u.entry)
 			if err != nil {
 				log.Panic(err)
