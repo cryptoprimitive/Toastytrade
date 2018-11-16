@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"time"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/syndtr/goleveldb/leveldb"
+	"github.com/dustin/go-humanize"
 	"log"
 	//"github.com/SomniaStellarum/StellarUtilities/slog"
 )
@@ -149,4 +151,59 @@ func (event BurnablePaymentClosed) describeToSeller(BPAddress common.Address) []
 func (event BurnablePaymentClosed) describeToBuyer(BPAddress common.Address) []byte {
 	return []byte(fmt.Sprintf("The Toastytrade at %s is now closed.\n\n"+
 		"No further action is necessary.", BPAddress.Hex()))
+}
+
+type autoreleaseWarningDescriber struct {
+	autoreleaseAvailableTime time.Time
+}
+
+type autoreleaseAvailableDescriber struct {
+
+}
+
+func (d autoreleaseWarningDescriber) describeToSeller(BPAddress common.Address) []byte {
+	return []byte(fmt.Sprintf("The Toastytrade at %s will be unlocked for the Buyer to autorelease %s.\n\n"+
+		"If you've received the fiat deposit, you can ignore this message. But if you haven't, make sure to deny the Buyer's claim!",
+		BPAddress.Hex(), humanize.Time(d.autoreleaseAvailableTime)))
+}
+
+func (d autoreleaseWarningDescriber) describeToBuyer(BPAddress common.Address) []byte {
+	return []byte{}
+}
+
+func (d autoreleaseAvailableDescriber) describeToSeller(BPAddress common.Address) []byte {
+	return []byte{}
+}
+
+func (d autoreleaseAvailableDescriber) describeToBuyer(BPAddress common.Address) []byte {
+	return []byte(fmt.Sprintf("The Toastytrade at %s is now available for autorelease!\n\n"+
+		"Return to the Toastytrade page here[LINK NEEDED] to withdraw your ether.",
+		BPAddress.Hex()))
+}
+
+func (ttEntry toastytradeEntry) shouldSendAutoreleaseWarning() bool {
+	if ttEntry.AutoreleaseWarningSent {
+		return false
+	}
+	getAccountReqChan <- ttEntry.Seller
+	accountResult := <- getAccountResChan
+	if accountResult.err == leveldb.ErrNotFound {
+		return false
+	}	else if accountResult.err != nil {
+		log.Panic(fmt.Sprintf("error getting account entry %s: ", ttEntry.Seller.Hex()), accountResult.err)
+	}
+	accountEntry := accountResult.entry
+	warningIntervalSeconds := accountEntry.WarningIntervalMinutes*60
+	return ttEntry.AutoreleaseTime.Int64() - int64(warningIntervalSeconds) < time.Now().Unix()
+}
+
+func (ttEntry toastytradeEntry) shouldSendAutoreleaseAvailable() bool {
+	if ttEntry.AutoreleaseAvailableSent {
+		return false
+	}
+	return ttEntry.AutoreleaseTime.Int64() < time.Now().Unix()
+}
+
+func (ttEntry toastytradeEntry) createAutoreleaseWarningDescriber() autoreleaseWarningDescriber {
+	return autoreleaseWarningDescriber{time.Unix(ttEntry.AutoreleaseTime.Int64(), 0)}
 }

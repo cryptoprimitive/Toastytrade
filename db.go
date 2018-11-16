@@ -28,8 +28,13 @@ var (
 
 	putAccountReqChan chan *putAccountRequest
 
+	setAutoreleaseWarningSentChan chan common.Address
+	setAutoreleaseAvailableSentChan chan common.Address
+
 	getAllToastytradeAddressesReqChan chan bool
 	getAllToastytradeAddressesResChan chan getAllToastytradeAddressesResult
+	getAllToastytradeEntriesReqChan chan bool
+	getAllToastytradeEntriesResChan chan getAllToastytradeEntriesResult
 	getToastytradeReqChan             chan common.Address
 	getToastytradeResChan             chan getToastytradeResult
 	getAccountReqChan                   chan common.Address
@@ -64,8 +69,13 @@ func init() {
 
 	putAccountReqChan = make(chan *putAccountRequest)
 
+	setAutoreleaseWarningSentChan = make(chan common.Address)
+	setAutoreleaseAvailableSentChan = make(chan common.Address)
+
 	getAllToastytradeAddressesReqChan = make(chan bool)
 	getAllToastytradeAddressesResChan = make(chan getAllToastytradeAddressesResult)
+	getAllToastytradeEntriesReqChan = make(chan bool)
+	getAllToastytradeEntriesResChan = make(chan getAllToastytradeEntriesResult)
 	getToastytradeReqChan = make(chan common.Address)
 	getToastytradeResChan = make(chan getToastytradeResult)
 	getAccountReqChan = make(chan common.Address)
@@ -111,6 +121,11 @@ type getAllToastytradeAddressesResult struct {
 	err       error
 }
 
+type getAllToastytradeEntriesResult struct {
+	entries map[common.Address]toastytradeEntry
+	err error
+}
+
 type getToastytradeResult struct {
 	entry *toastytradeEntry
 	err   error
@@ -138,6 +153,11 @@ type toastytradeEntry struct {
 
 	AutoreleaseWarningSent bool `json:"autoreleasewarningsent"`
 	AutoreleaseAvailableSent bool `json:"autoreleaseavailablesent"`
+}
+
+type AccountEntry struct {
+	Email string `json:"email"`
+	WarningIntervalMinutes int `json:"warninginterval"`
 }
 
 func dbRequestsHandler() {
@@ -233,8 +253,12 @@ func dbRequestsHandler() {
 			}
 
 		case <-getAllToastytradeAddressesReqChan:
-			r, err := getToastytradeAddresses()
+			r, err := getAllToastytradeAddresses()
 			getAllToastytradeAddressesResChan <- getAllToastytradeAddressesResult{r, err}
+
+		case <-getAllToastytradeEntriesReqChan:
+			r, err := getAllToastytradeEntries()
+			getAllToastytradeEntriesResChan <- getAllToastytradeEntriesResult{r, err}
 
 		case addr := <-getToastytradeReqChan:
 			r, err := getToastytrade(addr)
@@ -243,11 +267,23 @@ func dbRequestsHandler() {
 		case addr := <-getAccountReqChan:
 			r, err := getAccount(addr)
 			getAccountResChan <- getAccountResult{r, err}
+
+		case addr := <-setAutoreleaseWarningSentChan:
+			err := setAutoreleaseWarningSent(addr)
+			if err != nil {
+				log.Panic("error setting autoreleaseWarningSent: ", err)
+			}
+
+		case addr := <-setAutoreleaseAvailableSentChan:
+			err := setAutoreleaseAvailableSent(addr)
+			if err != nil {
+				log.Panic("error setting autoreleaseAvailableSent: ", err)
+			}
 		}
 	}
 }
 
-func getToastytradeAddresses() (addresses []common.Address, err error) {
+func getAllToastytradeAddresses() (addresses []common.Address, err error) {
 	iter := ttdb.NewIterator(nil, nil)
 
 	for iter.Next() {
@@ -255,6 +291,22 @@ func getToastytradeAddresses() (addresses []common.Address, err error) {
 	}
 
 	return addresses, nil
+}
+
+func getAllToastytradeEntries() (entries map[common.Address]toastytradeEntry, err error) {
+	iter := ttdb.NewIterator(nil, nil)
+
+	entries = make(map[common.Address]toastytradeEntry)
+	for iter.Next() {
+		ttEntry := new(toastytradeEntry)
+		err := json.Unmarshal(iter.Value(), ttEntry)
+		if err != nil {
+			return nil, err
+		}
+		entries[common.BytesToAddress(iter.Key())] = *ttEntry
+	}
+
+	return entries, nil
 }
 
 func getToastytrade(toastytradeAddress common.Address) (entry *toastytradeEntry, err error) {
@@ -284,9 +336,28 @@ func putToastytrade(toastytradeAddress common.Address, entry *toastytradeEntry) 
 	return err
 }
 
-type AccountEntry struct {
-	Email string `json:"email"`
-	WarningIntervalMinutes int `json:"warninginterval"`
+func setAutoreleaseWarningSent(toastytradeAddress common.Address) error {
+	entry, err := getToastytrade(toastytradeAddress)
+	if err != nil {
+		return err
+	}
+
+	entry.AutoreleaseWarningSent = true
+
+	err = putToastytrade(toastytradeAddress, entry)
+	return err
+}
+
+func setAutoreleaseAvailableSent(toastytradeAddress common.Address) error {
+	entry, err := getToastytrade(toastytradeAddress)
+	if err != nil {
+		return err
+	}
+
+	entry.AutoreleaseAvailableSent = true
+
+	err = putToastytrade(toastytradeAddress, entry)
+	return err
 }
 
 func getAccount(addr common.Address) (account *AccountEntry, err error) {

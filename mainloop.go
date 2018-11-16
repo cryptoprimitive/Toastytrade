@@ -96,18 +96,18 @@ func mainLoop(fromBlock uint64) {
 		//Additionally fetch all already-cached BP addresses from DB
 
 		getAllToastytradeAddressesReqChan <- true
-		result := <-getAllToastytradeAddressesResChan
-		if result.err != nil {
-			log.Panic(result.err)
+		addressesResult := <-getAllToastytradeAddressesResChan
+		if addressesResult.err != nil {
+			log.Panic(addressesResult.err)
 		}
-		ttAddressesFromDB := result.addresses
+		ttAddressesFromDB := addressesResult.addresses
 
 		slog.DebugPrint("TTs from DB: ", len(ttAddressesFromDB))
 
 		//Concacenate the DB's adddresses and those from the newly-created BPs.
 		toastytradeAddresses := append(ttAddressesFromDB, newToastytradeAddresses...)
 
-		//create toastytradeContract instances to use their filterer in the next loop
+		//create toastytradeContract instances to use their filterer in the loop below
 		toastytradeContracts := make(map[common.Address]*BurnablePayment)
 		for _, addr := range toastytradeAddresses {
 			contract, err := NewBurnablePayment(addr, cli)
@@ -298,6 +298,26 @@ func mainLoop(fromBlock uint64) {
 		}
 
 		lastBlockScanned.Set(&queryEndBlock)
+
+		//Now, we iterate through each toastytradeEntry and check for the need for further notifications
+
+		getAllToastytradeEntriesReqChan <- true
+		entriesResult := <-getAllToastytradeEntriesResChan
+		if entriesResult.err != nil {
+			log.Panic(entriesResult.err)
+		}
+		ttEntries := entriesResult.entries
+
+		for addr, entry := range ttEntries {
+			if entry.shouldSendAutoreleaseWarning() {
+				notifyParties(addr, entry.createAutoreleaseWarningDescriber())
+				setAutoreleaseWarningSentChan <- addr
+			}
+			if entry.shouldSendAutoreleaseAvailable() {
+				notifyParties(addr, autoreleaseAvailableDescriber{})
+				setAutoreleaseAvailableSentChan <- addr
+			}
+		}
 
 		slog.DebugPrint("sleepin")
 
